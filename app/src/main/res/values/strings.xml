@@ -13,4 +13,6 @@
     <string name="description_text">Plus button Icon</string>
     <string name="update_text">Update</string>
     <string name="delete_text">Delete</string>
+    <string name="termstart_hint">Term start</string>
+    <string name="termend_hint">Term end</string>
 </resources>

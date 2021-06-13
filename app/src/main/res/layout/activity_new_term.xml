@@ -16,17 +16,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/enter_occupation"
+        android:id="@+id/enter_termstart"
         style="@style/formStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/occupation_hint"
+        android:hint="@string/termstart_hint"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enter_name" />
+
+    <EditText
+        android:id="@+id/enter_termend"
+        style="@style/formStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/termend_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enter_termstart" />
 
     <Button
         android:id="@+id/save_button"
@@ -37,7 +50,7 @@
         android:text="@string/save_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_occupation" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_termend" />
 
     <Button
         android:id="@+id/update_button"

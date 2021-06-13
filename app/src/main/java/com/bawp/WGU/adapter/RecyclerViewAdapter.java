@@ -37,9 +37,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Term term = Objects.requireNonNull(termList.get(position));
         holder.name.setText(term.getName());
-        holder.occupation.setText(term.getOccupation());
-
-
+        holder.termStart.setText(term.getTerm_start());
+        holder.termEnd.setText(term.getTerm_end());
     }
 
     @Override
@@ -52,14 +51,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView name;
-        public TextView occupation;
+        public TextView name;;
+        public TextView termStart;
+        public TextView termEnd;
         OnTermClickListener onTermClickListener;
 
         public ViewHolder(@NonNull View itemView, OnTermClickListener onTermClickListener) {
             super(itemView);
             name = itemView.findViewById(R.id.row_name_textview);
-            occupation = itemView.findViewById(R.id.row_occupation_textview);
+            termStart = itemView.findViewById(R.id.row_termstart_textview);
+            termEnd = itemView.findViewById(R.id.row_termend_textview);
             this.onTermClickListener = onTermClickListener;
             itemView.setOnClickListener(this);
 

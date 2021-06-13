@@ -17,8 +17,11 @@ import androidx.lifecycle.ViewModelProvider;
 public class NewTerm extends AppCompatActivity {
     public static final String NAME_REPLY = "name_reply";
     public static final String OCCUPATION = "occupation";
+    public static final String TERM_START = "term_start";
+    public static final String TERM_END = "term_end";
     private EditText enterName;
-    private EditText enterOccupation;
+    private EditText enterTermStart;
+    private EditText enterTermEnd;
     private Button saveInfoButton;
     private int termId = 0;
     private Boolean isEdit = false;
@@ -32,7 +35,8 @@ public class NewTerm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_term);
         enterName = findViewById(R.id.enter_name);
-        enterOccupation = findViewById(R.id.enter_occupation);
+        enterTermStart = findViewById(R.id.enter_termstart);
+        enterTermEnd = findViewById(R.id.enter_termend);
         saveInfoButton = findViewById(R.id.save_button);
 
         termViewModel = new ViewModelProvider.AndroidViewModelFactory(NewTerm.this
@@ -44,8 +48,9 @@ public class NewTerm extends AppCompatActivity {
 
             termViewModel.get(termId).observe(this, term -> {
                 if (term != null) {
-                    enterOccupation.setText(term.getOccupation());
                     enterName.setText(term.getName());
+                    enterTermStart.setText(term.getTerm_start());
+                    enterTermEnd.setText(term.getTerm_end());
                 }
             });
             isEdit = true;
@@ -57,12 +62,15 @@ public class NewTerm extends AppCompatActivity {
             Intent replyIntent = new Intent();
 
             if (!TextUtils.isEmpty(enterName.getText())
-                    && !TextUtils.isEmpty(enterOccupation.getText())) {
+                    && !TextUtils.isEmpty(enterTermStart.getText())
+                    && !TextUtils.isEmpty(enterTermEnd.getText())) {
                 String name = enterName.getText().toString();
-                String occupation = enterOccupation.getText().toString();
+                String termStart = enterTermStart.getText().toString();
+                String termEnd = enterTermEnd.getText().toString();
 
                 replyIntent.putExtra(NAME_REPLY, name);
-                replyIntent.putExtra(OCCUPATION, occupation);
+                replyIntent.putExtra(TERM_START, termStart);
+                replyIntent.putExtra(TERM_END, termEnd);
                 setResult(RESULT_OK, replyIntent);
 
 
@@ -91,16 +99,18 @@ public class NewTerm extends AppCompatActivity {
 
     private void edit(Boolean isDelete) {
         String name = enterName.getText().toString().trim();
-        String occupation = enterOccupation.getText().toString().trim();
+        String termStart = enterTermStart.getText().toString().trim();
+        String termEnd = enterTermEnd.getText().toString().trim();
 
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(occupation)) {
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(termStart) || TextUtils.isEmpty(termEnd)) {
             Snackbar.make(enterName, R.string.empty, Snackbar.LENGTH_SHORT)
                     .show();
         } else {
             Term term = new Term();
             term.setId(termId);
             term.setName(name);
-            term.setOccupation(occupation);
+            term.setTerm_start(termStart);
+            term.setTerm_end(termEnd);
             if (isDelete)
                 TermViewModel.delete(term);
             else

@@ -36,7 +36,15 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/row_occupation_textview"
+                android:id="@+id/row_termstart_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/general_padding"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/row_termend_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

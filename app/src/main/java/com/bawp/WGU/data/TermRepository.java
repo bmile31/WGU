@@ -3,7 +3,7 @@ package com.bawp.WGU.data;
 import android.app.Application;
 
 import com.bawp.WGU.model.Term;
-import com.bawp.WGU.util.TermRoomDatabase;
+import com.bawp.WGU.util.Database;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public class TermRepository {
     private LiveData<List<Term>> allTerms;
 
     public TermRepository(Application application) {
-        TermRoomDatabase db = TermRoomDatabase.getDatabase(application);
+        Database db = Database.getDatabase(application);
         termDao = db.termDao();
 
         allTerms = termDao.getAllTerms();
@@ -22,16 +22,16 @@ public class TermRepository {
     }
     public LiveData<List<Term>> getAllData() { return allTerms; }
     public void insert(Term term) {
-         TermRoomDatabase.databaseWriteExecutor.execute(() -> termDao.insert(term));
+         Database.databaseWriteExecutor.execute(() -> termDao.insert(term));
     }
     public LiveData<Term> get(int id) {
          return termDao.get(id);
     }
     public void update(Term term) {
-        TermRoomDatabase.databaseWriteExecutor.execute(() -> termDao.update(term));
+        Database.databaseWriteExecutor.execute(() -> termDao.update(term));
     }
     public void delete(Term term) {
-         TermRoomDatabase.databaseWriteExecutor.execute(() -> termDao.delete(term));
+         Database.databaseWriteExecutor.execute(() -> termDao.delete(term));
     }
 
 }

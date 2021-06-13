@@ -10,6 +10,7 @@ import com.bawp.WGU.model.Term;
 import com.bawp.WGU.model.TermViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,10 +27,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     private static final String TAG = "Clicked";
     public static final String TERM_ID = "term_id";
     private TermViewModel termViewModel;
-    private TextView textView;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
-    private LiveData<List<Term>> termList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +41,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
         termViewModel = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this
                 .getApplication())
                 .create(TermViewModel.class);
 
         termViewModel.getAllTerms().observe(this, terms -> {
-
             recyclerViewAdapter = new RecyclerViewAdapter(terms, MainActivity.this, this);
             recyclerView.setAdapter(recyclerViewAdapter);
-
-
         });
-
-
 
         FloatingActionButton fab = findViewById(R.id.add_term_fab);
         fab.setOnClickListener(view -> {
@@ -71,10 +64,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         if (requestCode == NEW_TERM_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             assert data != null;
             String name = data.getStringExtra(NewTerm.NAME_REPLY);
-            String occupation = data.getStringExtra(NewTerm.OCCUPATION);
+            String term_start = data.getStringExtra(NewTerm.TERM_START);
+            String term_end = data.getStringExtra(NewTerm.TERM_END);
 
             assert name != null;
-            Term term = new Term(name, occupation);
+            Term term = new Term(name, term_start, term_end);
 
             TermViewModel.insert(term);
         }
@@ -88,10 +82,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         Intent intent = new Intent(MainActivity.this, NewTerm.class);
         intent.putExtra(TERM_ID, term.getId());
         startActivity(intent);
-
-
-
-
 
     }
 }

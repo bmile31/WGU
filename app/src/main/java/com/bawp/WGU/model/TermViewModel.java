@@ -16,7 +16,6 @@ public class TermViewModel extends AndroidViewModel {
     public static TermRepository repository;
     public final LiveData<List<Term>> allTerms;
 
-
     public TermViewModel(@NonNull Application application) {
         super(application);
         repository = new TermRepository(application);
@@ -30,7 +29,5 @@ public class TermViewModel extends AndroidViewModel {
     
     public static void update(Term term) { repository.update(term);}
     public static void delete(Term term) { repository.delete(term);}
-
-
 
 }
