@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.bawp.WGU.model.Term;
 import com.bawp.WGU.model.TermViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class NewTerm extends AppCompatActivity {
     public static final String NAME_REPLY = "name_reply";
-    public static final String OCCUPATION = "occupation";
     public static final String TERM_START = "term_start";
     public static final String TERM_END = "term_end";
     private EditText enterName;
@@ -25,6 +25,7 @@ public class NewTerm extends AppCompatActivity {
     private Button saveInfoButton;
     private int termId = 0;
     private Boolean isEdit = false;
+    private Boolean isNew = false;
     private Button updateButton;
     private Button deleteButton;
 
@@ -39,12 +40,22 @@ public class NewTerm extends AppCompatActivity {
         enterTermEnd = findViewById(R.id.enter_termend);
         saveInfoButton = findViewById(R.id.save_button);
 
+        FloatingActionButton fab = findViewById(R.id.edit_term_fab);
+        fab.setOnClickListener(view -> {
+            enterName.setEnabled(true);
+            enterTermStart.setEnabled(true);
+            enterTermEnd.setEnabled(true);
+            updateButton.setVisibility(View.VISIBLE);
+            deleteButton.setVisibility(View.VISIBLE);
+            fab.setVisibility(View.GONE);
+        });
+
         termViewModel = new ViewModelProvider.AndroidViewModelFactory(NewTerm.this
                 .getApplication())
                 .create(TermViewModel.class);
 
-        if (getIntent().hasExtra(MainActivity.TERM_ID)) {
-            termId = getIntent().getIntExtra(MainActivity.TERM_ID, 0);
+        if (getIntent().hasExtra(Terms.TERM_ID)) {
+            termId = getIntent().getIntExtra(Terms.TERM_ID, 0);
 
             termViewModel.get(termId).observe(this, term -> {
                 if (term != null) {
@@ -54,9 +65,7 @@ public class NewTerm extends AppCompatActivity {
                 }
             });
             isEdit = true;
-
         }
-
 
         saveInfoButton.setOnClickListener(view -> {
             Intent replyIntent = new Intent();
@@ -89,10 +98,16 @@ public class NewTerm extends AppCompatActivity {
 
 
         if (isEdit) {
+            enterName.setEnabled(false);
+            enterTermStart.setEnabled(false);
+            enterTermEnd.setEnabled(false);
             saveInfoButton.setVisibility(View.GONE);
+            updateButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
         } else {
             updateButton.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
+            fab.setVisibility(View.GONE);
         }
 
     }

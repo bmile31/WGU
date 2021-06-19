@@ -15,4 +15,6 @@
     <string name="delete_text">Delete</string>
     <string name="termstart_hint">Term start</string>
     <string name="termend_hint">Term end</string>
+    <string name="term_button_text">Terms</string>
+    <string name="edit_button">Edit</string>
 </resources>
