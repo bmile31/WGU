@@ -1,20 +1,27 @@
 <resources>
     <string name="app_name">WGU</string>
-    <string name="title_activity_new_term">NewTerm</string>
+    <string name="title_activity_new_term">New Term</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
-    <string name="name_hint">Enter name</string>
-    <string name="occupation_hint">Occupation</string>
+    <string name="term_title_hint">Enter term title</string>
     <string name="save_text">Save</string>
     <string name="empty">Enter information</string>
     <string name="description_text">Plus button Icon</string>
     <string name="update_text">Update</string>
     <string name="delete_text">Delete</string>
-    <string name="termstart_hint">Term start</string>
-    <string name="termend_hint">Term end</string>
+    <string name="term_start_hint">Term start</string>
+    <string name="term_end_hint">Term end</string>
     <string name="term_button_text">Terms</string>
     <string name="edit_button">Edit</string>
+    <string name="row_term_title">TextView</string>
+    <string name="row_term_start">TextView</string>
+    <string name="row_term_end">TextView</string>
+    <string name="row_course_title">TextView</string>
+    <string name="row_course_start">TextView</string>
+    <string name="row_course_end">TextView</string>
+    <string name="row_course_status">TextView</string>
+    <string name="term_status_hint">Enter course status</string>
+    <string name="course_button_text">Courses</string>
 </resources>

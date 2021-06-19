@@ -15,11 +15,11 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class TermList extends RecyclerView.Adapter<TermList.ViewHolder> {
     private final List<Term> termList;
     private final OnTermClickListener termClickListener;
 
-    public RecyclerViewAdapter(List<Term> termList, Context context, OnTermClickListener onTermClickListener) {
+    public TermList(List<Term> termList, Context context, OnTermClickListener onTermClickListener) {
         this.termList = termList;
         this.termClickListener = onTermClickListener;
     }
@@ -36,7 +36,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Term term = Objects.requireNonNull(termList.get(position));
-        holder.name.setText(term.getName());
+        holder.termTitle.setText(term.getTerm_title());
         holder.termStart.setText(term.getTerm_start());
         holder.termEnd.setText(term.getTerm_end());
     }
@@ -51,16 +51,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView name;;
+        public TextView termTitle;;
         public TextView termStart;
         public TextView termEnd;
         OnTermClickListener onTermClickListener;
 
         public ViewHolder(@NonNull View itemView, OnTermClickListener onTermClickListener) {
             super(itemView);
-            name = itemView.findViewById(R.id.row_name_textview);
-            termStart = itemView.findViewById(R.id.row_termstart_textview);
-            termEnd = itemView.findViewById(R.id.row_termend_textview);
+            termTitle = itemView.findViewById(R.id.row_term_title);
+            termStart = itemView.findViewById(R.id.row_term_start);
+            termEnd = itemView.findViewById(R.id.row_term_end);
             this.onTermClickListener = onTermClickListener;
             itemView.setOnClickListener(this);
 

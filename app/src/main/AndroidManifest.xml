@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WGU">
-        <activity android:name=".TermDetails"></activity>
         <activity android:name=".Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewTerm"
+            android:name=".Term"
             android:label="@string/title_activity_new_term">
 
             <!-- <intent-filter> -->

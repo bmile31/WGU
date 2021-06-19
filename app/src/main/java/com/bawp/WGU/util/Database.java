@@ -2,7 +2,9 @@ package com.bawp.WGU.util;
 
 import android.content.Context;
 
+import com.bawp.WGU.data.CourseDao;
 import com.bawp.WGU.data.TermDao;
+import com.bawp.WGU.model.Course;
 import com.bawp.WGU.model.Term;
 
 import java.util.concurrent.ExecutorService;
@@ -13,7 +15,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@androidx.room.Database(entities = {Term.class}, version = 2, exportSchema = false)
+@androidx.room.Database(entities = {Term.class, Course.class}, version = 4, exportSchema = false)
 
 public abstract class Database extends RoomDatabase {
 
@@ -29,7 +31,9 @@ public abstract class Database extends RoomDatabase {
 
                     databaseWriteExecutor.execute(() -> {
                         TermDao termDao = INSTANCE.termDao();
+                        CourseDao courseDao = INSTANCE.courseDao();
                         termDao.deleteAll();
+                        courseDao.deleteAll();
 
                         Term term = new Term("Fall 2020", "2020-07-31", "2020-12-28");
                         termDao.insert(term);
@@ -61,5 +65,6 @@ public abstract class Database extends RoomDatabase {
     }
 
     public abstract TermDao termDao();
+    public abstract CourseDao courseDao();
 
 }

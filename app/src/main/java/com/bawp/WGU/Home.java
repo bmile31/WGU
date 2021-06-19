@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class Home extends AppCompatActivity {
     private Button termsButton;
+    private Button coursesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +23,23 @@ public class Home extends AppCompatActivity {
                 openTerms();
             }
         });
+
+        coursesButton = findViewById(R.id.courses_button);
+        coursesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openCourses();
+            }
+        });
     }
 
     public void openTerms(){
         Intent intent = new Intent(this, Terms.class);
+        startActivity(intent);
+    }
+
+    public void openCourses(){
+        Intent intent = new Intent(this, Courses.class);
         startActivity(intent);
     }
 }

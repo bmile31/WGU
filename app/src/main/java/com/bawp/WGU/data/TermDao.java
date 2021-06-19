@@ -21,11 +21,11 @@ public interface TermDao {
     @Query("DELETE FROM TERM_TABLE")
     void deleteAll();
 
-    @Query("SELECT * FROM TERM_TABLE ORDER BY name ASC")
+    @Query("SELECT * FROM TERM_TABLE ORDER BY term_title ASC")
     LiveData<List<Term>> getAllTerms();
 
-    @Query("SELECT * FROM TERM_TABLE WHERE TERM_TABLE.id == :id")
-    LiveData<Term> get(int id);
+    @Query("SELECT * FROM TERM_TABLE WHERE TERM_TABLE.term_id == :term_id")
+    LiveData<Term> get(int term_id);
 
     @Update
     void update(Term term);

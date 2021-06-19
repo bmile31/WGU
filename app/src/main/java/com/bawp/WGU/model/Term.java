@@ -12,10 +12,10 @@ import java.util.Date;
 public class Term {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private int term_id;
 
-    @ColumnInfo(name = "name")
-    private String name;
+    @ColumnInfo(name = "term_title")
+    private String term_title;
 
     @ColumnInfo(name = "term_start")
     private String term_start;
@@ -26,30 +26,30 @@ public class Term {
     public Term() {
     }
 
-    public Term(@NonNull String name, String term_start, String term_end) {
-        this.name = name;
+    public Term(@NonNull String term_title, String term_start, String term_end) {
+        this.term_title = term_title;
         this.term_start = term_start;
         this.term_end = term_end;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTerm_id(int term_id) {
+        this.term_id = term_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTerm_title(String term_title) {
+        this.term_title = term_title;
     }
 
     public void setTerm_start(String term_start) { this.term_start = term_start; }
 
     public void setTerm_end(String term_end) { this.term_end = term_end; }
 
-    public int getId() {
-        return id;
+    public int getTerm_id() {
+        return term_id;
     }
 
-    public String getName() {
-        return name;
+    public String getTerm_title() {
+        return term_title;
     }
 
     public String getTerm_start() { return term_start; }

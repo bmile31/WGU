@@ -25,7 +25,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/row_term_title"
+                android:id="@+id/row_course_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -36,20 +36,29 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/row_term_start"
+                android:id="@+id/row_course_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:padding="@dimen/general_padding"
-                android:text="@string/row_term_start" />
+                android:text="@string/row_course_start" />
 
             <TextView
-                android:id="@+id/row_term_end"
+                android:id="@+id/row_course_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:padding="@dimen/general_padding"
-                android:text="@string/row_term_end" />
+                android:text="@string/row_course_end" />
+
+            <TextView
+                android:id="@+id/row_course_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/general_padding"
+                android:text="@string/row_course_status" />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

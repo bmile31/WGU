@@ -4,8 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.bawp.WGU.adapter.RecyclerViewAdapter;
-import com.bawp.WGU.model.Term;
+import com.bawp.WGU.adapter.TermList;
 import com.bawp.WGU.model.TermViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -17,14 +16,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Terms extends AppCompatActivity implements RecyclerViewAdapter.OnTermClickListener {
+public class Terms extends AppCompatActivity implements TermList.OnTermClickListener {
 
     private static final int NEW_TERM_ACTIVITY_REQUEST_CODE = 1;
     private static final String TAG = "Clicked";
     public static final String TERM_ID = "term_id";
     private TermViewModel termViewModel;
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private TermList termList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class Terms extends AppCompatActivity implements RecyclerViewAdapter.OnTe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terms);
 
-        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.term_lists);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -42,13 +41,13 @@ public class Terms extends AppCompatActivity implements RecyclerViewAdapter.OnTe
                 .create(TermViewModel.class);
 
         termViewModel.getAllTerms().observe(this, terms -> {
-            recyclerViewAdapter = new RecyclerViewAdapter(terms, Terms.this, this);
-            recyclerView.setAdapter(recyclerViewAdapter);
+            termList = new TermList(terms, Terms.this, this);
+            recyclerView.setAdapter(termList);
         });
 
         FloatingActionButton fab = findViewById(R.id.add_term_fab);
         fab.setOnClickListener(view -> {
-            Intent intent = new Intent(Terms.this, NewTerm.class);
+            Intent intent = new Intent(Terms.this, Term.class);
             startActivityForResult(intent, NEW_TERM_ACTIVITY_REQUEST_CODE);
         });
     }
@@ -58,12 +57,12 @@ public class Terms extends AppCompatActivity implements RecyclerViewAdapter.OnTe
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == NEW_TERM_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             assert data != null;
-            String name = data.getStringExtra(NewTerm.NAME_REPLY);
-            String term_start = data.getStringExtra(NewTerm.TERM_START);
-            String term_end = data.getStringExtra(NewTerm.TERM_END);
+            String term_title = data.getStringExtra(Term.TERM_TITLE_REPLY);
+            String term_start = data.getStringExtra(Term.TERM_START);
+            String term_end = data.getStringExtra(Term.TERM_END);
 
-            assert name != null;
-            Term term = new Term(name, term_start, term_end);
+            assert term_title != null;
+            com.bawp.WGU.model.Term term = new com.bawp.WGU.model.Term(term_title, term_start, term_end);
 
             TermViewModel.insert(term);
         }
@@ -71,23 +70,12 @@ public class Terms extends AppCompatActivity implements RecyclerViewAdapter.OnTe
 
     @Override
     public void onTermClick(int position) {
-        Term term = Objects.requireNonNull(termViewModel.allTerms.getValue()).get(position);
-        Log.d(TAG, "onTermClick: " + term.getId());
+        com.bawp.WGU.model.Term term = Objects.requireNonNull(termViewModel.allTerms.getValue()).get(position);
+        Log.d(TAG, "onTermClick: " + term.getTerm_id());
 
-        Intent intent = new Intent(Terms.this, NewTerm.class);
-        intent.putExtra(TERM_ID, term.getId());
+        Intent intent = new Intent(Terms.this, Term.class);
+        intent.putExtra(TERM_ID, term.getTerm_id());
         startActivity(intent);
 
     }
-
-//    @Override
-//    public void onTermClick(int position) {
-//        Term term = Objects.requireNonNull(termViewModel.allTerms.getValue()).get(position);
-//        Log.d(TAG, "onTermClick: " + term.getId());
-//
-//        Intent intent = new Intent(Terms.this, TermDetails.class);
-//        intent.putExtra(TERM_ID, term.getId());
-//        startActivity(intent);
-//
-//    }
 }
