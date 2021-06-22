@@ -24,5 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/course_button_text" />
+
+        <Button
+            android:id="@+id/assessments_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/assessment_button_text" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

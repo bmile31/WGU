@@ -39,6 +39,7 @@ public class CourseList extends RecyclerView.Adapter<CourseList.ViewHolder> {
         holder.courseTitle.setText(course.getCourse_title());
         holder.courseStart.setText(course.getCourse_start());
         holder.courseEnd.setText(course.getCourse_end());
+        holder.courseStatus.setText(course.getCourse_status());
     }
 
     @Override
@@ -54,6 +55,7 @@ public class CourseList extends RecyclerView.Adapter<CourseList.ViewHolder> {
         public TextView courseTitle;;
         public TextView courseStart;
         public TextView courseEnd;
+        public TextView courseStatus;
         OnCourseClickListener onCourseClickListener;
 
         public ViewHolder(@NonNull View itemView, OnCourseClickListener onCourseClickListener) {
@@ -61,6 +63,7 @@ public class CourseList extends RecyclerView.Adapter<CourseList.ViewHolder> {
             courseTitle = itemView.findViewById(R.id.row_course_title);
             courseStart = itemView.findViewById(R.id.row_course_start);
             courseEnd = itemView.findViewById(R.id.row_course_end);
+            courseStatus = itemView.findViewById(R.id.row_course_status);
             this.onCourseClickListener = onCourseClickListener;
             itemView.setOnClickListener(this);
 

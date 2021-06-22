@@ -10,6 +10,7 @@ import android.widget.Button;
 public class Home extends AppCompatActivity {
     private Button termsButton;
     private Button coursesButton;
+    private Button assessmentButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,14 @@ public class Home extends AppCompatActivity {
                 openCourses();
             }
         });
+
+        assessmentButton = findViewById(R.id.assessments_button);
+        assessmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAssessments();
+            }
+        });
     }
 
     public void openTerms(){
@@ -40,6 +49,11 @@ public class Home extends AppCompatActivity {
 
     public void openCourses(){
         Intent intent = new Intent(this, Courses.class);
+        startActivity(intent);
+    }
+
+    public void openAssessments(){
+        Intent intent = new Intent(this, Assessments.class);
         startActivity(intent);
     }
 }

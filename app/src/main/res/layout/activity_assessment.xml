@@ -4,58 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Course">
+    tools:context=".Assessment">
 
     <EditText
-        android:id="@+id/enter_course_title"
+        android:id="@+id/enter_assessment_title"
         style="@style/formStyle"
-        android:hint="@string/course_title_hint"
+        android:hint="@string/assessment_title_hint"
         android:importantForAutofill="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/enter_course_start"
+        android:id="@+id/enter_assessment_end"
         style="@style/formStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/course_start_hint"
+        android:hint="@string/assessment_end_hint"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_course_title" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_assessment_title" />
 
     <EditText
-        android:id="@+id/enter_course_end"
+        android:id="@+id/enter_assessment_type"
         style="@style/formStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/course_end_hint"
+        android:hint="@string/assessment_type_hint"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_course_start" />
-
-    <EditText
-        android:id="@+id/enter_course_status"
-        style="@style/formStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/term_status_hint"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_course_end" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_assessment_end" />
 
     <Button
-        android:id="@+id/save_course_button"
+        android:id="@+id/save_assessment_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/button_margins"
@@ -63,32 +50,32 @@
         android:text="@string/save_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_course_status" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_assessment_type" />
 
     <Button
-        android:id="@+id/update_course_button"
+        android:id="@+id/update_assessment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/update_text"
-        app:layout_constraintEnd_toStartOf="@+id/delete_course_button"
+        app:layout_constraintEnd_toStartOf="@+id/delete_assessment_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_course_button" />
+        app:layout_constraintTop_toBottomOf="@+id/save_assessment_button" />
 
     <Button
-        android:id="@+id/delete_course_button"
+        android:id="@+id/delete_assessment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/delete_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/update_course_button"
-        app:layout_constraintTop_toBottomOf="@+id/save_course_button" />
+        app:layout_constraintStart_toEndOf="@+id/update_assessment_button"
+        app:layout_constraintTop_toBottomOf="@+id/save_assessment_button" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/edit_course_fab"
+        android:id="@+id/edit_assessment_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
