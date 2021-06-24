@@ -61,9 +61,10 @@ public class Courses extends AppCompatActivity implements CourseList.OnCourseCli
             String course_start = data.getStringExtra(Course.COURSE_START);
             String course_end = data.getStringExtra(Course.COURSE_END);
             String course_status = data.getStringExtra(Course.COURSE_STATUS);
+            int term_id = 1;
 
             assert course_title != null;
-            com.bawp.WGU.model.Course course = new com.bawp.WGU.model.Course(course_title, course_start, course_end, course_status);
+            com.bawp.WGU.model.Course course = new com.bawp.WGU.model.Course(course_title, course_start, course_end, course_status, term_id);
 
             CourseViewModel.insert(course);
         }
