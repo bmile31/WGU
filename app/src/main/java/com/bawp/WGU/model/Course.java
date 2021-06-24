@@ -3,13 +3,25 @@ package com.bawp.WGU.model;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "course_table")
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(tableName = "course_table"
+//        foreignKeys = @ForeignKey(
+//            entity = Term.class,
+//            parentColumns = "term_id",
+//            childColumns = "term_id_fk",
+//            onDelete = CASCADE)
+)
 public class Course {
 
     @PrimaryKey(autoGenerate = true)
     private int course_id;
+
+//    @ColumnInfo(name = "term_id_fk")
+//    private int term_id_fk;
 
     @ColumnInfo(name = "course_title")
     private String course_title;
@@ -31,15 +43,24 @@ public class Course {
         this.course_start = course_start;
         this.course_end = course_end;
         this.course_status = course_status;
+//        this.term_id_fk = term_id_fk;
     }
 
     public int getCourse_id() {
         return course_id;
     }
 
+//    public int getTerm_id_fk() {
+//        return term_id_fk;
+//    }
+
     public void setCourse_id(int course_id) {
         this.course_id = course_id;
     }
+
+//    public void setTerm_id_fk(int term_id_fk) {
+//        this.term_id_fk = term_id_fk;
+//    }
 
     public String getCourse_title() {
         return course_title;

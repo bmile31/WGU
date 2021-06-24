@@ -48,6 +48,15 @@ public abstract class Database extends RoomDatabase {
                         term = new Term("Summer 2021", "2021-05-31", "2021-08-25");
                         termDao.insert(term);
 
+                        Course course = new Course("World History", "2020-09-02", "2020-07-02", "In Progress");
+                        courseDao.insert(course);
+
+                        course = new Course("Biology", "2020-09-02", "2020-12-02", "In Progress");
+                        courseDao.insert(course);
+
+                        course = new Course("English 101", "2020-12-02", "2020-12-03", "In Progress");
+                        courseDao.insert(course);
+
                     });
                 }
             };

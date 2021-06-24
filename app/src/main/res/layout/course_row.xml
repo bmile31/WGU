@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:padding="@dimen/general_padding"
+                android:padding="@dimen/small_padding"
                 android:text="@string/row_term_title"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:padding="@dimen/general_padding"
+                android:padding="@dimen/small_padding"
                 android:text="@string/row_course_start" />
 
             <TextView
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:padding="@dimen/general_padding"
+                android:padding="@dimen/small_padding"
                 android:text="@string/row_course_end" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:padding="@dimen/general_padding"
+                android:padding="@dimen/small_padding"
                 android:text="@string/row_course_status" />
 
         </LinearLayout>
