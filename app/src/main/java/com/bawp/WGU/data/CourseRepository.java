@@ -15,8 +15,8 @@ public class CourseRepository {
 
     public CourseRepository(Application application) {
         Database db = Database.getDatabase(application);
-        courseDao = db.courseDao();
 
+        courseDao = db.courseDao();
         allCourses = courseDao.getAllCourses();
 
     }
@@ -24,12 +24,19 @@ public class CourseRepository {
     public void insert(Course course) {
          Database.databaseWriteExecutor.execute(() -> courseDao.insert(course));
     }
+
     public LiveData<Course> get(int course_id) {
          return courseDao.get(course_id);
     }
+
+    public LiveData<List<Course>> getCoursesByTerm(int termID){
+        return courseDao.getCoursesByTerm(termID);
+    }
+
     public void update(Course course) {
         Database.databaseWriteExecutor.execute(() -> courseDao.update(course));
     }
+
     public void delete(Course course) {
          Database.databaseWriteExecutor.execute(() -> courseDao.delete(course));
     }

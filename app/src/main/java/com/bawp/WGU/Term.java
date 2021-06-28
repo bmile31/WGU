@@ -7,13 +7,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.bawp.WGU.adapter.CourseList;
+import com.bawp.WGU.adapter.CoursesInTermList;
+import com.bawp.WGU.model.Course;
+import com.bawp.WGU.model.CourseViewModel;
 import com.bawp.WGU.model.TermViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Term extends AppCompatActivity {
     public static final String TERM_TITLE_REPLY = "term_title_reply";
@@ -23,12 +34,17 @@ public class Term extends AppCompatActivity {
     private EditText enterTermStart;
     private EditText enterTermEnd;
     private Button saveInfoButton;
+    private RecyclerView courseView;
     private int termId = 0;
     private Boolean isEdit = false;
     private Button updateButton;
     private Button deleteButton;
 
     private TermViewModel termViewModel;
+    private CourseViewModel courseViewModel;
+
+    private CoursesInTermList coursesInTermList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +57,19 @@ public class Term extends AppCompatActivity {
         enterTermStart = findViewById(R.id.enter_term_start);
         enterTermEnd = findViewById(R.id.enter_term_end);
         saveInfoButton = findViewById(R.id.save_term_button);
+        courseView = findViewById(R.id.rvCourses);
+
+        courseView.setLayoutManager(new LinearLayoutManager(this));
+        courseView.setHasFixedSize(true);
+
+        courseViewModel = new ViewModelProvider.AndroidViewModelFactory(Term.this
+                .getApplication())
+                .create(CourseViewModel.class);
+
+        courseViewModel.getCoursesByTerm(getIntent().getIntExtra(Terms.TERM_ID, 0)).observe(this, courses -> {
+            coursesInTermList = new CoursesInTermList(courses);
+            courseView.setAdapter(coursesInTermList);
+        });
 
         FloatingActionButton fab = findViewById(R.id.edit_term_fab);
         fab.setOnClickListener(view -> {
@@ -49,6 +78,7 @@ public class Term extends AppCompatActivity {
             enterTermEnd.setEnabled(true);
             updateButton.setVisibility(View.VISIBLE);
             deleteButton.setVisibility(View.VISIBLE);
+            courseView.setVisibility(View.GONE);
             fab.setVisibility(View.GONE);
 
             assert actionBar != null;
@@ -116,6 +146,7 @@ public class Term extends AppCompatActivity {
             updateButton.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
             fab.setVisibility(View.GONE);
+            courseView.setVisibility(View.GONE);
         }
 
     }

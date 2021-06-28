@@ -27,8 +27,8 @@ public interface CourseDao {
     @Query("SELECT * FROM COURSE_TABLE WHERE COURSE_TABLE.course_id == :course_id")
     LiveData<Course> get(int course_id);
 
-//    @Query("SELECT * FROM COURSE_TABLE WHERE term_id == :term_id")
-//    LiveData<Course> get(int term_id);
+    @Query("SELECT * FROM COURSE_TABLE WHERE term_id = :termID")
+    LiveData<List<Course>> getCoursesByTerm(int termID);
 
     @Update
     void update(Course course);
