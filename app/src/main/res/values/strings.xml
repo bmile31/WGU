@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">WGU</string>
     <string name="title_activity_new_term">New Term</string>
+    <string name="title_activity_new_course">New Course</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
@@ -11,10 +12,12 @@
     <string name="description_text">Plus button Icon</string>
     <string name="update_text">Update</string>
     <string name="delete_text">Delete</string>
+    <string name="add_course_text">Add Course</string>
     <string name="term_start_hint">Term start</string>
     <string name="term_end_hint">Term end</string>
     <string name="term_button_text">Terms</string>
     <string name="edit_button">Edit</string>
+    <string name="cancel_edit_button">Edit</string>
     <string name="row_term_title">TextView</string>
     <string name="row_term_start">TextView</string>
     <string name="row_term_end">TextView</string>

@@ -3,6 +3,7 @@ package com.bawp.WGU;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,12 +22,16 @@ public class Course extends AppCompatActivity {
     public static final String COURSE_START = "course_start";
     public static final String COURSE_END = "course_end";
     public static final String COURSE_STATUS = "course_status";
+    public static final String TERM_ID = "term_id";
+    //    private static final String TERM_ID = "term_id";
+//    private static final int TERM_ID = 0;
     private EditText enterCourseTitle;
     private EditText enterCourseStart;
     private EditText enterCourseEnd;
     private EditText enterCourseStatus;
     private Button saveInfoButton;
     private int courseId = 0;
+    private int termId = 0;
     private Boolean isEdit = false;
     private Button updateButton;
     private Button deleteButton;
@@ -64,6 +69,11 @@ public class Course extends AppCompatActivity {
                 .getApplication())
                 .create(CourseViewModel.class);
 
+        Intent termIDIntent = getIntent();
+//        termId = termIDIntent.getIntExtra("TERM_ID", termId);
+        Log.i(Term.TERM_ID, "Term ID on Course page: " + termId );
+        Log.i(Term.COURSE_ID, "Course ID on Course page: " + courseId );
+
         if (getIntent().hasExtra(Courses.COURSE_ID)) {
             courseId = getIntent().getIntExtra(Courses.COURSE_ID, 0);
 
@@ -82,7 +92,11 @@ public class Course extends AppCompatActivity {
         }
 
         saveInfoButton.setOnClickListener(view -> {
-            Intent replyIntent = new Intent();
+            Intent courseIntent = new Intent();
+//            Intent termIDIntent = getIntent();
+            termId = termIDIntent.getIntExtra("TERM_ID", termId);
+
+            Log.i(Course.TERM_ID, "Term ID on Course page save button: " + termId + "   " + TERM_ID);
 
             if (!TextUtils.isEmpty(enterCourseTitle.getText())
                     && !TextUtils.isEmpty(enterCourseStart.getText())
@@ -93,18 +107,17 @@ public class Course extends AppCompatActivity {
                 String courseEnd = enterCourseEnd.getText().toString();
                 String courseStatus = enterCourseStatus.getText().toString();
 
-                replyIntent.putExtra(COURSE_TITLE_REPLY, courseTitle);
-                replyIntent.putExtra(COURSE_START, courseStart);
-                replyIntent.putExtra(COURSE_END, courseEnd);
-                replyIntent.putExtra(COURSE_STATUS, courseStatus);
-                setResult(RESULT_OK, replyIntent);
-
+                courseIntent.putExtra(COURSE_TITLE_REPLY, courseTitle);
+                courseIntent.putExtra(COURSE_START, courseStart);
+                courseIntent.putExtra(COURSE_END, courseEnd);
+                courseIntent.putExtra(COURSE_STATUS, courseStatus);
+                courseIntent.putExtra(TERM_ID, termId);
+                setResult(RESULT_OK, courseIntent);
 
             } else {
-                setResult(RESULT_CANCELED, replyIntent);
+                setResult(RESULT_CANCELED, courseIntent);
             }
             finish();
-
         });
 
         deleteButton = findViewById(R.id.delete_course_button);
@@ -146,6 +159,7 @@ public class Course extends AppCompatActivity {
             course.setCourse_start(courseStart);
             course.setCourse_end(courseEnd);
             course.setCourse_status(courseStatus);
+            course.setTerm_id(termId);
             if (isDelete)
                 CourseViewModel.delete(course);
             else
