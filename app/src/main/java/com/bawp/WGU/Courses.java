@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class Courses extends AppCompatActivity implements CourseList.OnCourseClickListener {
 
-    private static final int NEW_COURSE_ACTIVITY_REQUEST_CODE = 1;
+//    private static final int NEW_COURSE_ACTIVITY_REQUEST_CODE = 1;
     private static final String TAG = "Clicked";
     public static final String COURSE_ID = "course_id";
     private CourseViewModel courseViewModel;

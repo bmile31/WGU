@@ -60,9 +60,10 @@ public class Assessments extends AppCompatActivity implements AssessmentList.OnA
             String assessment_title = data.getStringExtra(Assessment.ASSESSMENT_TITLE_REPLY);
             String assessment_end = data.getStringExtra(Assessment.ASSESSMENT_END);
             String assessment_type = data.getStringExtra(Assessment.ASSESSMENT_TYPE);
+            int course_id = 2;
 
             assert assessment_title != null;
-            com.bawp.WGU.model.Assessment assessment = new com.bawp.WGU.model.Assessment(assessment_title, assessment_end, assessment_type);
+            com.bawp.WGU.model.Assessment assessment = new com.bawp.WGU.model.Assessment(assessment_title, assessment_end, assessment_type, course_id);
 
             AssessmentViewModel.insert(assessment);
         }

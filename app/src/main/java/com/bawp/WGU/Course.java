@@ -9,27 +9,35 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bawp.WGU.adapter.AssessmentList;
+import com.bawp.WGU.adapter.AssessmentsInCourseList;
+import com.bawp.WGU.adapter.CoursesInTermList;
 import com.bawp.WGU.model.CourseViewModel;
+import com.bawp.WGU.model.AssessmentViewModel;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class Course extends AppCompatActivity {
+    private static final int NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
     public static final String COURSE_TITLE_REPLY = "course_title_reply";
     public static final String COURSE_START = "course_start";
     public static final String COURSE_END = "course_end";
     public static final String COURSE_STATUS = "course_status";
     public static final String TERM_ID = "term_id";
-    //    private static final String TERM_ID = "term_id";
-//    private static final int TERM_ID = 0;
     private EditText enterCourseTitle;
     private EditText enterCourseStart;
     private EditText enterCourseEnd;
     private EditText enterCourseStatus;
     private Button saveInfoButton;
+    private RecyclerView assessmentsView;
     private int courseId = 0;
     private int termId = 0;
     private Boolean isEdit = false;
@@ -37,6 +45,9 @@ public class Course extends AppCompatActivity {
     private Button deleteButton;
 
     private CourseViewModel courseViewModel;
+    private AssessmentViewModel assessmentViewModel;
+
+    private AssessmentsInCourseList assessmentsInCourseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +62,44 @@ public class Course extends AppCompatActivity {
         enterCourseStatus = findViewById(R.id.enter_course_status);
         saveInfoButton = findViewById(R.id.save_course_button);
 
-        FloatingActionButton fab = findViewById(R.id.edit_course_fab);
-        fab.setOnClickListener(view -> {
+        assessmentsView = findViewById(R.id.rvAssessments);
+
+        assessmentsView.setLayoutManager(new LinearLayoutManager(this));
+        assessmentsView.setHasFixedSize(true);
+
+        assessmentViewModel = new ViewModelProvider.AndroidViewModelFactory(Course.this
+                .getApplication())
+                .create(AssessmentViewModel.class);
+
+        assessmentViewModel.getAssessmentsByCourse(getIntent().getIntExtra(Courses.COURSE_ID, 0)).observe(this, assessments -> {
+            assessmentsInCourseList = new AssessmentsInCourseList(assessments);
+            assessmentsView.setAdapter(assessmentsInCourseList);
+        });
+
+//        assessmentViewModel.getAllAssessments().observe(this, assessments -> {
+//            assessmentsInCourseList = new AssessmentsInCourseList(assessments);
+//            assessmentsView.setAdapter(assessmentsInCourseList);
+//        });
+
+        FloatingActionButton editCourseFab = findViewById(R.id.edit_course_fab);
+        editCourseFab.setOnClickListener(view -> {
             enterCourseTitle.setEnabled(true);
             enterCourseStart.setEnabled(true);
             enterCourseEnd.setEnabled(true);
             enterCourseStatus.setEnabled(true);
             updateButton.setVisibility(View.VISIBLE);
             deleteButton.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.GONE);
+            editCourseFab.setVisibility(View.GONE);
 
             assert actionBar != null;
             actionBar.setTitle("Edit Course");
+        });
+
+        FloatingActionButton addAssessmentFab = findViewById(R.id.add_assessment_fab);
+        addAssessmentFab.setOnClickListener(view -> {
+            Intent intent = new Intent(Course.this, Assessment.class);
+            startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
+            intent.putExtra("COURSE_ID", courseId);
         });
 
         courseViewModel = new ViewModelProvider.AndroidViewModelFactory(Course.this
@@ -70,9 +107,6 @@ public class Course extends AppCompatActivity {
                 .create(CourseViewModel.class);
 
         Intent termIDIntent = getIntent();
-//        termId = termIDIntent.getIntExtra("TERM_ID", termId);
-        Log.i(Term.TERM_ID, "Term ID on Course page: " + termId );
-        Log.i(Term.COURSE_ID, "Course ID on Course page: " + courseId );
 
         if (getIntent().hasExtra(Courses.COURSE_ID)) {
             courseId = getIntent().getIntExtra(Courses.COURSE_ID, 0);
@@ -93,10 +127,7 @@ public class Course extends AppCompatActivity {
 
         saveInfoButton.setOnClickListener(view -> {
             Intent courseIntent = new Intent();
-//            Intent termIDIntent = getIntent();
             termId = termIDIntent.getIntExtra("TERM_ID", termId);
-
-            Log.i(Course.TERM_ID, "Term ID on Course page save button: " + termId + "   " + TERM_ID);
 
             if (!TextUtils.isEmpty(enterCourseTitle.getText())
                     && !TextUtils.isEmpty(enterCourseStart.getText())
@@ -126,7 +157,6 @@ public class Course extends AppCompatActivity {
         updateButton = findViewById(R.id.update_course_button);
         updateButton.setOnClickListener(view -> edit(false));
 
-
         if (isEdit) {
             enterCourseTitle.setEnabled(false);
             enterCourseStart.setEnabled(false);
@@ -138,7 +168,7 @@ public class Course extends AppCompatActivity {
         } else {
             updateButton.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
-            fab.setVisibility(View.GONE);
+            editCourseFab.setVisibility(View.GONE);
         }
 
     }
@@ -166,6 +196,23 @@ public class Course extends AppCompatActivity {
                 CourseViewModel.update(course);
             finish();
 
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            assert data != null;
+            String assessment_title = data.getStringExtra(Assessment.ASSESSMENT_TITLE_REPLY);
+            String assessment_end = data.getStringExtra(Assessment.ASSESSMENT_END);
+            String assessment_type = data.getStringExtra(Assessment.ASSESSMENT_TYPE);
+            int course_id = courseId;
+
+            assert assessment_title != null;
+            com.bawp.WGU.model.Assessment assessment = new com.bawp.WGU.model.Assessment(assessment_title, assessment_end, assessment_type, course_id);
+
+            AssessmentViewModel.insert(assessment);
         }
     }
 }

@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.bawp.WGU.model.Assessment;
+import com.bawp.WGU.model.Course;
 import com.bawp.WGU.util.Database;
 
 import java.util.List;
@@ -21,6 +22,11 @@ public class AssessmentRepository {
 
     }
     public LiveData<List<Assessment>> getAllData() { return allAssessments; }
+
+    public LiveData<List<Assessment>> getAssessmentsByCourse(int courseID){
+        return assessmentDao.getAssessmentsByCourse(courseID);
+    }
+
     public void insert(Assessment assessment) {
          Database.databaseWriteExecutor.execute(() -> assessmentDao.insert(assessment));
     }

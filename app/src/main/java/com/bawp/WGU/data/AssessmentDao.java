@@ -9,6 +9,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.bawp.WGU.model.Assessment;
+import com.bawp.WGU.model.Course;
 
 import java.util.List;
 
@@ -26,6 +27,9 @@ public interface AssessmentDao {
 
     @Query("SELECT * FROM ASSESSMENT_TABLE WHERE ASSESSMENT_TABLE.assessment_id == :assessment_id")
     LiveData<Assessment> get(int assessment_id);
+
+    @Query("SELECT * FROM ASSESSMENT_TABLE WHERE assessment_id = :assessmentID")
+    LiveData<List<Assessment>> getAssessmentsByCourse(int assessmentID);
 
     @Update
     void update(Assessment assessment);

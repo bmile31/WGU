@@ -33,14 +33,12 @@ public class Term extends AppCompatActivity {
     public static final String TERM_START = "term_start";
     public static final String TERM_END = "term_end";
     public static final String TERM_ID = "term_id";
-    public static final String COURSE_ID = "course_id";
     private EditText enterTermTitle;
     private EditText enterTermStart;
     private EditText enterTermEnd;
     private Button saveInfoButton;
     private RecyclerView courseView;
     private int termId = 0;
-    private int courseId = 0;
     private Boolean isEdit = false;
     private Button updateButton;
     private Button deleteButton;
@@ -63,7 +61,6 @@ public class Term extends AppCompatActivity {
         enterTermStart = findViewById(R.id.enter_term_start);
         enterTermEnd = findViewById(R.id.enter_term_end);
         saveInfoButton = findViewById(R.id.save_term_button);
-        addCourseButton = findViewById(R.id.add_course_button);
         courseView = findViewById(R.id.rvCourses);
 
         courseView.setLayoutManager(new LinearLayoutManager(this));
@@ -86,8 +83,7 @@ public class Term extends AppCompatActivity {
         });
 
         FloatingActionButton editFab = findViewById(R.id.edit_term_fab);
-//        FloatingActionButton cancelFab = findViewById(R.id.cancel_edit_term_fab);
-//        cancelFab.setVisibility(View.GONE);
+
         editFab.setOnClickListener(view -> {
             enterTermTitle.setEnabled(true);
             enterTermStart.setEnabled(true);
@@ -103,19 +99,6 @@ public class Term extends AppCompatActivity {
             actionBar.setTitle("Edit Term");
 
         });
-
-//        cancelFab.setOnClickListener(view -> {
-//            enterTermTitle.setEnabled(false);
-//            enterTermStart.setEnabled(false);
-//            enterTermEnd.setEnabled(false);
-//            updateButton.setVisibility(View.GONE);
-//            deleteButton.setVisibility(View.GONE);
-//            addCourseButton.setVisibility(View.GONE);
-//            courseView.setVisibility(View.VISIBLE);
-//            editFab.setVisibility(View.VISIBLE);
-//            cancelFab.setVisibility(View.GONE);
-//
-//        });
 
         termViewModel = new ViewModelProvider.AndroidViewModelFactory(Term.this
                 .getApplication())
@@ -136,18 +119,6 @@ public class Term extends AppCompatActivity {
             });
             isEdit = true;
         }
-
-        addCourseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Term.this, Course.class);
-                intent.putExtra("TERM_ID", termId);
-                startActivityForResult(intent, NEW_COURSE_ACTIVITY_REQUEST_CODE);
-                startActivity(intent);
-                Log.i(Course.TERM_ID, "Term ID on Term page: " + termId );
-                Log.i(Courses.COURSE_ID, "Course ID on Term page: " + courseId );
-            }
-        });
 
         saveInfoButton.setOnClickListener(view -> {
             Intent termIntent = new Intent();
@@ -228,23 +199,12 @@ public class Term extends AppCompatActivity {
             String course_start = data.getStringExtra(Course.COURSE_START);
             String course_end = data.getStringExtra(Course.COURSE_END);
             String course_status = data.getStringExtra(Course.COURSE_STATUS);
-//            int term_id = data.getIntExtra(Course.TERM_ID, termId);
-
-            int term_id = 2;
-            Log.i(Course.TERM_ID, "Term ID on Term page: " + termId );
-            Log.i(Courses.COURSE_ID, "Course ID on Term page: " + courseId );
-//            String termID = data.getStringExtra(Course.TERM_ID);
-//            int term_id = Integer.parseInt(termID);
-//            int term_id = 1;
+            int term_id = termId;
 
             assert course_title != null;
             com.bawp.WGU.model.Course course = new com.bawp.WGU.model.Course(course_title, course_start, course_end, course_status, term_id);
 
             CourseViewModel.insert(course);
-        }
-        else {
-                    Log.i(Course.COURSE_TITLE_REPLY, "request code now working: " + requestCode + " result code: " + resultCode );
-
         }
     }
 }
