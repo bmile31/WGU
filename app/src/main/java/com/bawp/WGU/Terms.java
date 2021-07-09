@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class Terms extends AppCompatActivity implements TermList.OnTermClickListener {
 
     private static final int NEW_TERM_ACTIVITY_REQUEST_CODE = 1;
-    private static final String TAG = "Clicked";
+//    private static final String TAG = "Clicked";
     public static final String TERM_ID = "term_id";
     private TermViewModel termViewModel;
     private RecyclerView recyclerView;
@@ -71,7 +71,7 @@ public class Terms extends AppCompatActivity implements TermList.OnTermClickList
     @Override
     public void onTermClick(int position) {
         com.bawp.WGU.model.Term term = Objects.requireNonNull(termViewModel.allTerms.getValue()).get(position);
-        Log.d(TAG, "onTermClick: " + term.getTerm_id());
+//        Log.d(TAG, "onTermClick: " + term.getTerm_id());
 
         Intent intent = new Intent(Terms.this, Term.class);
         intent.putExtra(TERM_ID, term.getTerm_id());

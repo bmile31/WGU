@@ -35,15 +35,19 @@ public class Course {
     @ColumnInfo(name = "course_status")
     private String course_status;
 
+    @ColumnInfo(name = "course_note")
+    private String course_note;
+
     public Course() {
     }
 
-    public Course(@NonNull String course_title, String course_start, String course_end, String course_status, int term_id) {
+    public Course(@NonNull String course_title, String course_start, String course_end, String course_status, int term_id, String course_note) {
         this.course_title = course_title;
         this.course_start = course_start;
         this.course_end = course_end;
         this.course_status = course_status;
         this.term_id = term_id;
+        this.course_note = course_note;
     }
 
     public int getCourse_id() {
@@ -72,6 +76,14 @@ public class Course {
 
     public String getCourse_start() {
         return course_start;
+    }
+
+    public String getCourse_note() {
+        return course_note;
+    }
+
+    public void setCourse_note(String course_note) {
+        this.course_note = course_note;
     }
 
     public void setCourse_start(String course_start) {

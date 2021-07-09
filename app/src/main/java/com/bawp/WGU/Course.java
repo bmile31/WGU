@@ -31,11 +31,13 @@ public class Course extends AppCompatActivity {
     public static final String COURSE_START = "course_start";
     public static final String COURSE_END = "course_end";
     public static final String COURSE_STATUS = "course_status";
+    public static final String COURSE_NOTE = "course_note";
     public static final String TERM_ID = "term_id";
     private EditText enterCourseTitle;
     private EditText enterCourseStart;
     private EditText enterCourseEnd;
     private EditText enterCourseStatus;
+    private EditText enterCourseNote;
     private Button saveInfoButton;
     private RecyclerView assessmentsView;
     private int courseId = 0;
@@ -43,6 +45,9 @@ public class Course extends AppCompatActivity {
     private Boolean isEdit = false;
     private Button updateButton;
     private Button deleteButton;
+    private FloatingActionButton addAssessmentFab;
+    private FloatingActionButton editCourseFab;
+    private FloatingActionButton shareFab;
 
     private CourseViewModel courseViewModel;
     private AssessmentViewModel assessmentViewModel;
@@ -60,9 +65,13 @@ public class Course extends AppCompatActivity {
         enterCourseStart = findViewById(R.id.enter_course_start);
         enterCourseEnd = findViewById(R.id.enter_course_end);
         enterCourseStatus = findViewById(R.id.enter_course_status);
+        enterCourseNote = findViewById(R.id.enter_course_note);
         saveInfoButton = findViewById(R.id.save_course_button);
-
         assessmentsView = findViewById(R.id.rvAssessments);
+        addAssessmentFab = findViewById(R.id.add_assessment_fab);
+        editCourseFab = findViewById(R.id.edit_course_fab);
+        shareFab = findViewById(R.id.share_fab);
+
 
         assessmentsView.setLayoutManager(new LinearLayoutManager(this));
         assessmentsView.setHasFixedSize(true);
@@ -81,25 +90,40 @@ public class Course extends AppCompatActivity {
 //            assessmentsView.setAdapter(assessmentsInCourseList);
 //        });
 
-        FloatingActionButton editCourseFab = findViewById(R.id.edit_course_fab);
+
         editCourseFab.setOnClickListener(view -> {
             enterCourseTitle.setEnabled(true);
             enterCourseStart.setEnabled(true);
             enterCourseEnd.setEnabled(true);
             enterCourseStatus.setEnabled(true);
+            enterCourseNote.setEnabled(true);
             updateButton.setVisibility(View.VISIBLE);
             deleteButton.setVisibility(View.VISIBLE);
             editCourseFab.setVisibility(View.GONE);
+            addAssessmentFab.setVisibility(View.GONE);
+            shareFab.setVisibility(View.GONE);
 
             assert actionBar != null;
             actionBar.setTitle("Edit Course");
         });
 
-        FloatingActionButton addAssessmentFab = findViewById(R.id.add_assessment_fab);
         addAssessmentFab.setOnClickListener(view -> {
             Intent intent = new Intent(Course.this, Assessment.class);
             startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
             intent.putExtra("COURSE_ID", courseId);
+        });
+
+        shareFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                String shareSub = enterCourseTitle.getText().toString() + " Notes";
+                String shareNote = enterCourseNote.getText().toString();
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareNote);
+                startActivity(Intent.createChooser(shareIntent, "Share notes using"));
+            }
         });
 
         courseViewModel = new ViewModelProvider.AndroidViewModelFactory(Course.this
@@ -117,6 +141,7 @@ public class Course extends AppCompatActivity {
                     enterCourseStart.setText(course.getCourse_start());
                     enterCourseEnd.setText(course.getCourse_end());
                     enterCourseStatus.setText(course.getCourse_status());
+                    enterCourseNote.setText(course.getCourse_note());
 
                     assert actionBar != null;
                     actionBar.setTitle(course.getCourse_title());
@@ -137,12 +162,14 @@ public class Course extends AppCompatActivity {
                 String courseStart = enterCourseStart.getText().toString();
                 String courseEnd = enterCourseEnd.getText().toString();
                 String courseStatus = enterCourseStatus.getText().toString();
+                String courseNote = enterCourseNote.getText().toString();
 
                 courseIntent.putExtra(COURSE_TITLE_REPLY, courseTitle);
                 courseIntent.putExtra(COURSE_START, courseStart);
                 courseIntent.putExtra(COURSE_END, courseEnd);
                 courseIntent.putExtra(COURSE_STATUS, courseStatus);
                 courseIntent.putExtra(TERM_ID, termId);
+                courseIntent.putExtra(COURSE_NOTE, courseNote);
                 setResult(RESULT_OK, courseIntent);
 
             } else {
@@ -162,6 +189,7 @@ public class Course extends AppCompatActivity {
             enterCourseStart.setEnabled(false);
             enterCourseEnd.setEnabled(false);
             enterCourseStatus.setEnabled(false);
+            enterCourseNote.setEnabled(false);
             saveInfoButton.setVisibility(View.GONE);
             updateButton.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
@@ -169,14 +197,15 @@ public class Course extends AppCompatActivity {
             updateButton.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
             editCourseFab.setVisibility(View.GONE);
+            shareFab.setVisibility(View.GONE);
         }
-
     }
 
     private void edit(Boolean isDelete) {
         String courseTitle = enterCourseTitle.getText().toString().trim();
         String courseStart = enterCourseStart.getText().toString().trim();
         String courseEnd = enterCourseEnd.getText().toString().trim();
+        String courseNote = enterCourseNote.getText().toString().trim();
         String courseStatus = enterCourseStatus.getText().toString().trim();
 
         if (TextUtils.isEmpty(courseTitle) || TextUtils.isEmpty(courseStart) || TextUtils.isEmpty(courseEnd) || TextUtils.isEmpty(courseStatus)) {
@@ -189,13 +218,13 @@ public class Course extends AppCompatActivity {
             course.setCourse_start(courseStart);
             course.setCourse_end(courseEnd);
             course.setCourse_status(courseStatus);
+            course.setCourse_note(courseNote);
             course.setTerm_id(termId);
             if (isDelete)
                 CourseViewModel.delete(course);
             else
                 CourseViewModel.update(course);
             finish();
-
         }
     }
 

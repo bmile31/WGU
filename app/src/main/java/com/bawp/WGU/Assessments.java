@@ -18,8 +18,8 @@ import java.util.Objects;
 
 public class Assessments extends AppCompatActivity implements AssessmentList.OnAssessmentClickListener {
 
-    private static final int NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
-    private static final String TAG = "Clicked";
+//    private static final int NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
+//    private static final String TAG = "Clicked";
     public static final String ASSESSMENT_ID = "assessment_id";
     private AssessmentViewModel assessmentViewModel;
     private RecyclerView recyclerView;
@@ -45,34 +45,34 @@ public class Assessments extends AppCompatActivity implements AssessmentList.OnA
             recyclerView.setAdapter(assessmentList);
         });
 
-        FloatingActionButton fab = findViewById(R.id.add_assessment_fab);
-        fab.setOnClickListener(view -> {
-            Intent intent = new Intent(Assessments.this, Assessment.class);
-            startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
-        });
+//        FloatingActionButton fab = findViewById(R.id.add_assessment_fab);
+//        fab.setOnClickListener(view -> {
+//            Intent intent = new Intent(Assessments.this, Assessment.class);
+//            startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
+//        });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            assert data != null;
-            String assessment_title = data.getStringExtra(Assessment.ASSESSMENT_TITLE_REPLY);
-            String assessment_end = data.getStringExtra(Assessment.ASSESSMENT_END);
-            String assessment_type = data.getStringExtra(Assessment.ASSESSMENT_TYPE);
-            int course_id = 2;
-
-            assert assessment_title != null;
-            com.bawp.WGU.model.Assessment assessment = new com.bawp.WGU.model.Assessment(assessment_title, assessment_end, assessment_type, course_id);
-
-            AssessmentViewModel.insert(assessment);
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+//            assert data != null;
+//            String assessment_title = data.getStringExtra(Assessment.ASSESSMENT_TITLE_REPLY);
+//            String assessment_end = data.getStringExtra(Assessment.ASSESSMENT_END);
+//            String assessment_type = data.getStringExtra(Assessment.ASSESSMENT_TYPE);
+//            int course_id = 2;
+//
+//            assert assessment_title != null;
+//            com.bawp.WGU.model.Assessment assessment = new com.bawp.WGU.model.Assessment(assessment_title, assessment_end, assessment_type, course_id);
+//
+//            AssessmentViewModel.insert(assessment);
+//        }
+//    }
 
     @Override
     public void onAssessmentClick(int position) {
         com.bawp.WGU.model.Assessment assessment = Objects.requireNonNull(assessmentViewModel.allAssessments.getValue()).get(position);
-        Log.d(TAG, "onAssessmentClick: " + assessment.getAssessment_id());
+//        Log.d(TAG, "onAssessmentClick: " + assessment.getAssessment_id());
 
         Intent intent = new Intent(Assessments.this, Assessment.class);
         intent.putExtra(ASSESSMENT_ID, assessment.getAssessment_id());

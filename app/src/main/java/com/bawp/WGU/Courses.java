@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Courses extends AppCompatActivity implements CourseList.OnCourseClickListener {
 
 //    private static final int NEW_COURSE_ACTIVITY_REQUEST_CODE = 1;
-    private static final String TAG = "Clicked";
+//    private static final String TAG = "Clicked";
     public static final String COURSE_ID = "course_id";
     private CourseViewModel courseViewModel;
     private RecyclerView recyclerView;
@@ -48,11 +48,11 @@ public class Courses extends AppCompatActivity implements CourseList.OnCourseCli
 
 //        Log.i(Term.TERM_ID, "Term ID on Course: " + course.ge );
 
-        FloatingActionButton fab = findViewById(R.id.add_course_fab);
-        fab.setOnClickListener(view -> {
+//        FloatingActionButton fab = findViewById(R.id.add_course_fab);
+//        fab.setOnClickListener(view -> {
 //            Intent intent = new Intent(Courses.this, Course.class);
 //            startActivityForResult(intent, NEW_COURSE_ACTIVITY_REQUEST_CODE);
-        });
+//        });
     }
 
 //    @Override
@@ -82,7 +82,7 @@ public class Courses extends AppCompatActivity implements CourseList.OnCourseCli
     @Override
     public void onCourseClick(int position) {
         com.bawp.WGU.model.Course course = Objects.requireNonNull(courseViewModel.allCourses.getValue()).get(position);
-        Log.d(TAG, "onCourseClick: " + course.getCourse_id());
+//        Log.d(TAG, "onCourseClick: " + course.getCourse_id());
 
         Intent intent = new Intent(Courses.this, Course.class);
         intent.putExtra(COURSE_ID, course.getCourse_id());

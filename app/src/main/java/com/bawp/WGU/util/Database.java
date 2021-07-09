@@ -17,7 +17,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@androidx.room.Database(entities = {Term.class, Course.class, Assessment.class}, version = 4, exportSchema = false)
+@androidx.room.Database(entities = {Term.class, Course.class, Assessment.class}, version = 5, exportSchema = false)
 
 public abstract class Database extends RoomDatabase {
 
@@ -48,13 +48,13 @@ public abstract class Database extends RoomDatabase {
                         term = new Term("Summer 2021", "2021-05-31", "2021-08-25");
                         termDao.insert(term);
 
-                        Course course = new Course("World History", "2020-09-02", "2020-07-02", "In Progress", 1);
+                        Course course = new Course("World History", "2020-09-02", "2020-07-02", "In Progress", 1, "Something, something...");
                         courseDao.insert(course);
 
-                        course = new Course("Biology", "2020-09-02", "2020-12-02", "In Progress", 2);
+                        course = new Course("Biology", "2020-09-02", "2020-12-02", "In Progress", 2, "Test note");
                         courseDao.insert(course);
 
-                        course = new Course("English 101", "2020-12-02", "2020-12-03", "In Progress", 3);
+                        course = new Course("English 101", "2020-12-02", "2020-12-03", "In Progress", 3, "Course notes would go here.");
                         courseDao.insert(course);
 
                         Assessment assessment = new Assessment("Test 1", "2020-09-02", "OA", 1);
@@ -65,7 +65,6 @@ public abstract class Database extends RoomDatabase {
 
                         assessment = new Assessment("Test 3", "2020-09-02", "OA", 3);
                         assessmentDao.insert(assessment);
-
                     });
                 }
             };

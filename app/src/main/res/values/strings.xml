@@ -30,6 +30,7 @@
     <string name="course_title_hint">Enter course title</string>
     <string name="course_start_hint">Enter course start date</string>
     <string name="course_end_hint">Enter course end date</string>
+    <string name="course_note_hint">Enter course notes</string>
 
     <string name="row_assessment_title">TextView</string>
     <string name="row_assessment_end">TextView</string>

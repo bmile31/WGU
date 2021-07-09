@@ -42,7 +42,6 @@ public class Term extends AppCompatActivity {
     private Boolean isEdit = false;
     private Button updateButton;
     private Button deleteButton;
-    private Button addCourseButton;
 
     private TermViewModel termViewModel;
     private CourseViewModel courseViewModel;
@@ -90,7 +89,6 @@ public class Term extends AppCompatActivity {
             enterTermEnd.setEnabled(true);
             updateButton.setVisibility(View.VISIBLE);
             deleteButton.setVisibility(View.VISIBLE);
-            addCourseButton.setVisibility(View.VISIBLE);
             courseView.setVisibility(View.GONE);
             editFab.setVisibility(View.GONE);
 //            cancelFab.setVisibility(View.VISIBLE);
@@ -149,7 +147,6 @@ public class Term extends AppCompatActivity {
         updateButton = findViewById(R.id.update_term_button);
         updateButton.setOnClickListener(view -> edit(false));
 
-
         if (isEdit) {
             enterTermTitle.setEnabled(false);
             enterTermStart.setEnabled(false);
@@ -157,11 +154,9 @@ public class Term extends AppCompatActivity {
             saveInfoButton.setVisibility(View.GONE);
             updateButton.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
-            addCourseButton.setVisibility(View.GONE);
         } else {
             updateButton.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
-            addCourseButton.setVisibility(View.GONE);
             editFab.setVisibility(View.GONE);
             courseView.setVisibility(View.GONE);
         }
@@ -199,10 +194,11 @@ public class Term extends AppCompatActivity {
             String course_start = data.getStringExtra(Course.COURSE_START);
             String course_end = data.getStringExtra(Course.COURSE_END);
             String course_status = data.getStringExtra(Course.COURSE_STATUS);
+            String course_note = data.getStringExtra(Course.COURSE_NOTE);
             int term_id = termId;
 
             assert course_title != null;
-            com.bawp.WGU.model.Course course = new com.bawp.WGU.model.Course(course_title, course_start, course_end, course_status, term_id);
+            com.bawp.WGU.model.Course course = new com.bawp.WGU.model.Course(course_title, course_start, course_end, course_status, term_id, course_note);
 
             CourseViewModel.insert(course);
         }
