@@ -39,31 +39,31 @@ public abstract class Database extends RoomDatabase {
                         courseDao.deleteAll();
                         assessmentDao.deleteAll();
 
-                        Term term = new Term("Fall 2020", "2020-07-31", "2020-12-28");
+                        Term term = new Term("Fall 2020", "2021-07-07", "2021-07-07");
                         termDao.insert(term);
 
-                        term = new Term("Spring 2021", "2021-01-03", "2021-05-28");
+                        term = new Term("Spring 2021", "2021-07-07", "2021-07-07");
                         termDao.insert(term);
 
-                        term = new Term("Summer 2021", "2021-05-31", "2021-08-25");
+                        term = new Term("Summer 2021", "2021-07-07", "2021-07-07");
                         termDao.insert(term);
 
-                        Course course = new Course("World History", "2020-09-02", "2020-07-02", "In Progress", 1, "Something, something...");
+                        Course course = new Course("World History", "2021-07-07", "2021-07-07", "In Progress", 1, "Something, something...");
                         courseDao.insert(course);
 
-                        course = new Course("Biology", "2020-09-02", "2020-12-02", "In Progress", 2, "Test note");
+                        course = new Course("Biology", "2021-07-07", "2021-07-07", "In Progress", 2, "Test note");
                         courseDao.insert(course);
 
-                        course = new Course("English 101", "2020-12-02", "2020-12-03", "In Progress", 3, "Course notes would go here.");
+                        course = new Course("English 101", "2021-07-07", "2021-07-07", "In Progress", 3, "Course notes would go here.");
                         courseDao.insert(course);
 
-                        Assessment assessment = new Assessment("Test 1", "2020-09-02", "OA", 1);
+                        Assessment assessment = new Assessment("Test 1", "2021-07-07", "OA", 1);
                         assessmentDao.insert(assessment);
 
-                        assessment = new Assessment("Test 2", "2020-09-02", "OA", 2);
+                        assessment = new Assessment("Test 2", "2021-07-07", "OA", 2);
                         assessmentDao.insert(assessment);
 
-                        assessment = new Assessment("Test 3", "2020-09-02", "OA", 3);
+                        assessment = new Assessment("Test 3", "2021-07-07", "OA", 3);
                         assessmentDao.insert(assessment);
                     });
                 }

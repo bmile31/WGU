@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,7 +18,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <TextView
+        android:id="@+id/course_start_title"
+        android:text="@string/course_start_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enter_course_title"
+        android:textAlignment="textStart"
+        />
     <EditText
         android:id="@+id/enter_course_start"
         style="@style/formStyle"
@@ -23,11 +36,32 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/course_start_hint"
-        android:inputType="textPersonName"
+        android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_course_title" />
+        app:layout_constraintTop_toBottomOf="@+id/course_start_title"
+        android:focusable="false"
+        />
 
+<!--    <DatePicker-->
+<!--        android:id="@+id/enter_course_start_datepicker"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:calendarViewShown="false"-->
+<!--        android:datePickerMode="spinner"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/course_start_title" />-->
+    <TextView
+        android:id="@+id/course_end_title"
+        android:text="@string/course_end_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enter_course_start"
+        android:textAlignment="textStart"
+        />
     <EditText
         android:id="@+id/enter_course_end"
         style="@style/formStyle"
@@ -39,7 +73,19 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_course_start" />
+        app:layout_constraintTop_toBottomOf="@+id/course_end_title"
+        android:focusable="false" />
+
+<!--        <DatePicker-->
+<!--            android:id="@+id/enter_course_end_datepicker"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:calendarViewShown="false"-->
+<!--            android:datePickerMode="spinner"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/enter_course_end" />-->
 
     <EditText
         android:id="@+id/enter_course_status"
@@ -147,4 +193,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/delete_course_button" />
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

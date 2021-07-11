@@ -1,5 +1,7 @@
 package com.bawp.WGU;
 
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -16,14 +19,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bawp.WGU.adapter.AssessmentList;
 import com.bawp.WGU.adapter.AssessmentsInCourseList;
-import com.bawp.WGU.adapter.CoursesInTermList;
 import com.bawp.WGU.model.CourseViewModel;
 import com.bawp.WGU.model.AssessmentViewModel;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class Course extends AppCompatActivity {
     private static final int NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
@@ -33,9 +40,12 @@ public class Course extends AppCompatActivity {
     public static final String COURSE_STATUS = "course_status";
     public static final String COURSE_NOTE = "course_note";
     public static final String TERM_ID = "term_id";
+    private static final String TAG = "Course Date";
     private EditText enterCourseTitle;
     private EditText enterCourseStart;
     private EditText enterCourseEnd;
+    private DatePickerDialog enterCourseStartDatepicker;
+    private DatePickerDialog enterCourseEndDatepicker;
     private EditText enterCourseStatus;
     private EditText enterCourseNote;
     private Button saveInfoButton;
@@ -54,6 +64,59 @@ public class Course extends AppCompatActivity {
 
     private AssessmentsInCourseList assessmentsInCourseList;
 
+    private void datePickers(){
+        enterCourseStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calender class's instance and get current date , month and year from calender
+                final Calendar startDateCalendar = Calendar.getInstance();
+                int courseStartYear = startDateCalendar.get(Calendar.YEAR); // current year
+                int courseStartMonth = startDateCalendar.get(Calendar.MONTH); // current month
+                int courseStartDay = startDateCalendar.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                enterCourseStartDatepicker = new DatePickerDialog(Course.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                enterCourseStart.setText(dayOfMonth + "-"
+                                        + (monthOfYear + 1) + "-" + year);
+
+                            }
+                        }, courseStartYear, courseStartMonth, courseStartDay);
+                enterCourseStartDatepicker.show();
+            }
+        });
+
+        enterCourseEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calender class's instance and get current date , month and year from calender
+                final Calendar endDateCalendar = Calendar.getInstance();
+                int courseEndYear = endDateCalendar.get(Calendar.YEAR); // current year
+                int courseEndMonth = endDateCalendar.get(Calendar.MONTH); // current month
+                int courseEndDay = endDateCalendar.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                enterCourseEndDatepicker = new DatePickerDialog(Course.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                enterCourseEnd.setText(dayOfMonth + "-"
+                                        + (monthOfYear + 1) + "-" + year);
+
+                            }
+                        }, courseEndYear, courseEndMonth, courseEndDay);
+                enterCourseEndDatepicker.show();
+            }
+        });
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +125,8 @@ public class Course extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
 
         enterCourseTitle = findViewById(R.id.enter_course_title);
-        enterCourseStart = findViewById(R.id.enter_course_start);
         enterCourseEnd = findViewById(R.id.enter_course_end);
+        enterCourseStart = findViewById(R.id.enter_course_start);
         enterCourseStatus = findViewById(R.id.enter_course_status);
         enterCourseNote = findViewById(R.id.enter_course_note);
         saveInfoButton = findViewById(R.id.save_course_button);
@@ -71,7 +134,6 @@ public class Course extends AppCompatActivity {
         addAssessmentFab = findViewById(R.id.add_assessment_fab);
         editCourseFab = findViewById(R.id.edit_course_fab);
         shareFab = findViewById(R.id.share_fab);
-
 
         assessmentsView.setLayoutManager(new LinearLayoutManager(this));
         assessmentsView.setHasFixedSize(true);
@@ -85,11 +147,25 @@ public class Course extends AppCompatActivity {
             assessmentsView.setAdapter(assessmentsInCourseList);
         });
 
+        datePickers();
+
+
+//        enterCourseEnd.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+//            @Override
+//            public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
+//                Calendar today = Calendar.getInstance();
+////                if (year == today.get(Calendar.YEAR)
+////                        && month == today.get(Calendar.MONTH)
+////                        && dayOfMonth == today.get(Calendar.DAY_OF_MONTH))
+////                    alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
+//
+//            }
+//        });
+
 //        assessmentViewModel.getAllAssessments().observe(this, assessments -> {
 //            assessmentsInCourseList = new AssessmentsInCourseList(assessments);
 //            assessmentsView.setAdapter(assessmentsInCourseList);
 //        });
-
 
         editCourseFab.setOnClickListener(view -> {
             enterCourseTitle.setEnabled(true);
@@ -154,6 +230,8 @@ public class Course extends AppCompatActivity {
             Intent courseIntent = new Intent();
             termId = termIDIntent.getIntExtra("TERM_ID", termId);
 
+            datePickers();
+
             if (!TextUtils.isEmpty(enterCourseTitle.getText())
                     && !TextUtils.isEmpty(enterCourseStart.getText())
                     && !TextUtils.isEmpty(enterCourseEnd.getText())
@@ -202,13 +280,16 @@ public class Course extends AppCompatActivity {
     }
 
     private void edit(Boolean isDelete) {
+
+        datePickers();
+
         String courseTitle = enterCourseTitle.getText().toString().trim();
         String courseStart = enterCourseStart.getText().toString().trim();
         String courseEnd = enterCourseEnd.getText().toString().trim();
         String courseNote = enterCourseNote.getText().toString().trim();
         String courseStatus = enterCourseStatus.getText().toString().trim();
 
-        if (TextUtils.isEmpty(courseTitle) || TextUtils.isEmpty(courseStart) || TextUtils.isEmpty(courseEnd) || TextUtils.isEmpty(courseStatus)) {
+        if (TextUtils.isEmpty(courseTitle) || TextUtils.isEmpty(courseStart) || TextUtils.isEmpty(courseStatus)) {
             Snackbar.make(enterCourseTitle, R.string.empty, Snackbar.LENGTH_SHORT)
                     .show();
         } else {
