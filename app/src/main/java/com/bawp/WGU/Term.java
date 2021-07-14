@@ -1,11 +1,13 @@
 package com.bawp.WGU;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.bawp.WGU.adapter.CourseList;
@@ -25,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Term extends AppCompatActivity {
@@ -36,6 +39,8 @@ public class Term extends AppCompatActivity {
     private EditText enterTermTitle;
     private EditText enterTermStart;
     private EditText enterTermEnd;
+    private DatePickerDialog termStartDatePicker;
+    private DatePickerDialog termEndDatePicker;
     private Button saveInfoButton;
     private RecyclerView courseView;
     private int termId = 0;
@@ -47,6 +52,58 @@ public class Term extends AppCompatActivity {
     private CourseViewModel courseViewModel;
 
     private CoursesInTermList coursesInTermList;
+
+    private void datePickers(){
+        enterTermStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calender class's instance and get current date , month and year from calender
+                final Calendar startDateCalendar = Calendar.getInstance();
+                int termStartYear = startDateCalendar.get(Calendar.YEAR); // current year
+                int termStartMonth = startDateCalendar.get(Calendar.MONTH); // current month
+                int termStartDay = startDateCalendar.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                termStartDatePicker = new DatePickerDialog(Term.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                enterTermStart.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                            }
+                        }, termStartYear, termStartMonth, termStartDay);
+                termStartDatePicker.show();
+            }
+        });
+
+        enterTermEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calender class's instance and get current date , month and year from calender
+                final Calendar endDateCalendar = Calendar.getInstance();
+                int termEndYear = endDateCalendar.get(Calendar.YEAR); // current year
+                int termEndMonth = endDateCalendar.get(Calendar.MONTH); // current month
+                int termEndDay = endDateCalendar.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                termEndDatePicker = new DatePickerDialog(Term.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                enterTermEnd.setText(dayOfMonth + "-"
+                                        + (monthOfYear + 1) + "-" + year);
+
+                            }
+                        }, termEndYear, termEndMonth, termEndDay);
+                termEndDatePicker.show();
+            }
+        });
+
+    }
 
 
     @Override
@@ -73,6 +130,8 @@ public class Term extends AppCompatActivity {
             coursesInTermList = new CoursesInTermList(courses);
             courseView.setAdapter(coursesInTermList);
         });
+
+        datePickers();
 
         FloatingActionButton addCourseFab = findViewById(R.id.add_course_fab);
         addCourseFab.setOnClickListener(view -> {

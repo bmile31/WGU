@@ -23,6 +23,8 @@ import com.bawp.WGU.adapter.AssessmentsInCourseList;
 import com.bawp.WGU.model.CourseViewModel;
 import com.bawp.WGU.model.AssessmentViewModel;
 
+import com.bawp.WGU.model.Term;
+import com.bawp.WGU.model.TermViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -40,7 +42,7 @@ public class Course extends AppCompatActivity {
     public static final String COURSE_STATUS = "course_status";
     public static final String COURSE_NOTE = "course_note";
     public static final String TERM_ID = "term_id";
-    private static final String TAG = "Course Date";
+    private static final String TAG = "Clicked";
     private EditText enterCourseTitle;
     private EditText enterCourseStart;
     private EditText enterCourseEnd;
@@ -81,8 +83,7 @@ public class Course extends AppCompatActivity {
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
                                 // set day of month , month and year value in the edit text
-                                enterCourseStart.setText(dayOfMonth + "-"
-                                        + (monthOfYear + 1) + "-" + year);
+                                enterCourseStart.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
 
                             }
                         }, courseStartYear, courseStartMonth, courseStartDay);
@@ -181,6 +182,7 @@ public class Course extends AppCompatActivity {
 
             assert actionBar != null;
             actionBar.setTitle("Edit Course");
+
         });
 
         addAssessmentFab.setOnClickListener(view -> {
@@ -210,6 +212,7 @@ public class Course extends AppCompatActivity {
 
         if (getIntent().hasExtra(Courses.COURSE_ID)) {
             courseId = getIntent().getIntExtra(Courses.COURSE_ID, 0);
+            termId = getIntent().getIntExtra(Courses.TERM_ID, 0);
 
             courseViewModel.get(courseId).observe(this, course -> {
                 if (course != null) {
@@ -218,6 +221,7 @@ public class Course extends AppCompatActivity {
                     enterCourseEnd.setText(course.getCourse_end());
                     enterCourseStatus.setText(course.getCourse_status());
                     enterCourseNote.setText(course.getCourse_note());
+                    course.setTerm_id(course.getTerm_id());
 
                     assert actionBar != null;
                     actionBar.setTitle(course.getCourse_title());
@@ -229,8 +233,6 @@ public class Course extends AppCompatActivity {
         saveInfoButton.setOnClickListener(view -> {
             Intent courseIntent = new Intent();
             termId = termIDIntent.getIntExtra("TERM_ID", termId);
-
-            datePickers();
 
             if (!TextUtils.isEmpty(enterCourseTitle.getText())
                     && !TextUtils.isEmpty(enterCourseStart.getText())
@@ -249,7 +251,6 @@ public class Course extends AppCompatActivity {
                 courseIntent.putExtra(TERM_ID, termId);
                 courseIntent.putExtra(COURSE_NOTE, courseNote);
                 setResult(RESULT_OK, courseIntent);
-
             } else {
                 setResult(RESULT_CANCELED, courseIntent);
             }
@@ -281,18 +282,17 @@ public class Course extends AppCompatActivity {
 
     private void edit(Boolean isDelete) {
 
-        datePickers();
-
         String courseTitle = enterCourseTitle.getText().toString().trim();
         String courseStart = enterCourseStart.getText().toString().trim();
         String courseEnd = enterCourseEnd.getText().toString().trim();
         String courseNote = enterCourseNote.getText().toString().trim();
         String courseStatus = enterCourseStatus.getText().toString().trim();
 
-        if (TextUtils.isEmpty(courseTitle) || TextUtils.isEmpty(courseStart) || TextUtils.isEmpty(courseStatus)) {
+        if (TextUtils.isEmpty(courseTitle) || TextUtils.isEmpty(courseStart) || TextUtils.isEmpty(courseEnd) || TextUtils.isEmpty(courseStatus)) {
             Snackbar.make(enterCourseTitle, R.string.empty, Snackbar.LENGTH_SHORT)
                     .show();
         } else {
+
             com.bawp.WGU.model.Course course = new com.bawp.WGU.model.Course();
             course.setCourse_id(courseId);
             course.setCourse_title(courseTitle);
@@ -301,6 +301,7 @@ public class Course extends AppCompatActivity {
             course.setCourse_status(courseStatus);
             course.setCourse_note(courseNote);
             course.setTerm_id(termId);
+
             if (isDelete)
                 CourseViewModel.delete(course);
             else

@@ -24,6 +24,7 @@ public class Assessment extends AppCompatActivity {
     private EditText enterAssessmentType;
     private Button saveInfoButton;
     private int assessmentId = 0;
+    private int courseId = 0;
     private Boolean isEdit = false;
     private Button updateButton;
     private Button deleteButton;
@@ -61,12 +62,14 @@ public class Assessment extends AppCompatActivity {
 
         if (getIntent().hasExtra(Assessments.ASSESSMENT_ID)) {
             assessmentId = getIntent().getIntExtra(Assessments.ASSESSMENT_ID, 0);
+            courseId = getIntent().getIntExtra(Assessments.COURSE_ID, 0);
 
             assessmentViewModel.get(assessmentId).observe(this, assessment -> {
                 if (assessment != null) {
                     enterAssessmentTitle.setText(assessment.getAssessment_title());
                     enterAssessmentEnd.setText(assessment.getAssessment_end());
                     enterAssessmentType.setText(assessment.getAssessment_type());
+                    assessment.setCourse_id(assessment.getCourse_id());
 
                     assert actionBar != null;
                     actionBar.setTitle(assessment.getAssessment_title());
@@ -121,6 +124,9 @@ public class Assessment extends AppCompatActivity {
     }
 
     private void edit(Boolean isDelete) {
+        Intent courseIDIntent = getIntent();
+        courseId = courseIDIntent.getIntExtra("COURSE_ID", courseId);
+
         String assessmentTitle = enterAssessmentTitle.getText().toString().trim();
         String assessmentEnd = enterAssessmentEnd.getText().toString().trim();
         String assessmentType = enterAssessmentType.getText().toString().trim();
@@ -134,6 +140,7 @@ public class Assessment extends AppCompatActivity {
             assessment.setAssessment_title(assessmentTitle);
             assessment.setAssessment_end(assessmentEnd);
             assessment.setAssessment_type(assessmentType);
+            assessment.setCourse_id(courseId);
             if (isDelete)
                 AssessmentViewModel.delete(assessment);
             else

@@ -26,7 +26,8 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_term_title" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_term_title"
+        android:focusable="false" />
 
     <EditText
         android:id="@+id/enter_term_end"
@@ -39,7 +40,8 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_term_start" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_term_start"
+        android:focusable="false" />
 
     <TextView
         android:layout_width="match_parent"

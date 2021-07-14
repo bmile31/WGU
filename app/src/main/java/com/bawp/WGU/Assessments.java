@@ -21,6 +21,7 @@ public class Assessments extends AppCompatActivity implements AssessmentList.OnA
 //    private static final int NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
 //    private static final String TAG = "Clicked";
     public static final String ASSESSMENT_ID = "assessment_id";
+    public static final String COURSE_ID = "course_id";
     private AssessmentViewModel assessmentViewModel;
     private RecyclerView recyclerView;
     private AssessmentList assessmentList;
@@ -76,6 +77,7 @@ public class Assessments extends AppCompatActivity implements AssessmentList.OnA
 
         Intent intent = new Intent(Assessments.this, Assessment.class);
         intent.putExtra(ASSESSMENT_ID, assessment.getAssessment_id());
+        intent.putExtra(COURSE_ID, assessment.getCourse_id());
         startActivity(intent);
 
     }

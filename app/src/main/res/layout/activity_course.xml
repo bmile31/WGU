@@ -18,16 +18,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/course_start_title"
-        android:text="@string/course_start_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_course_title"
-        android:textAlignment="textStart"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/course_start_title"-->
+<!--        android:text="@string/course_start_title"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/enter_course_title"-->
+<!--        android:textAlignment="textStart"-->
+<!--        />-->
     <EditText
         android:id="@+id/enter_course_start"
         style="@style/formStyle"
@@ -39,7 +39,7 @@
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_start_title"
+        app:layout_constraintTop_toBottomOf="@+id/enter_course_title"
         android:focusable="false"
         />
 
@@ -52,16 +52,16 @@
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toTopOf="@+id/course_start_title" />-->
-    <TextView
-        android:id="@+id/course_end_title"
-        android:text="@string/course_end_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_course_start"
-        android:textAlignment="textStart"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/course_end_title"-->
+<!--        android:text="@string/course_end_title"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/enter_course_start"-->
+<!--        android:textAlignment="textStart"-->
+<!--        />-->
     <EditText
         android:id="@+id/enter_course_end"
         style="@style/formStyle"
@@ -73,7 +73,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_end_title"
+        app:layout_constraintTop_toBottomOf="@+id/enter_course_start"
         android:focusable="false" />
 
 <!--        <DatePicker-->

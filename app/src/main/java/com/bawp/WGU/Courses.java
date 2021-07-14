@@ -21,6 +21,7 @@ public class Courses extends AppCompatActivity implements CourseList.OnCourseCli
 //    private static final int NEW_COURSE_ACTIVITY_REQUEST_CODE = 1;
 //    private static final String TAG = "Clicked";
     public static final String COURSE_ID = "course_id";
+    public static final String TERM_ID = "term_id";
     private CourseViewModel courseViewModel;
     private RecyclerView recyclerView;
     private CourseList courseList;
@@ -86,6 +87,7 @@ public class Courses extends AppCompatActivity implements CourseList.OnCourseCli
 
         Intent intent = new Intent(Courses.this, Course.class);
         intent.putExtra(COURSE_ID, course.getCourse_id());
+        intent.putExtra(TERM_ID, course.getTerm_id());
         startActivity(intent);
 
     }
