@@ -2,7 +2,11 @@ package com.bawp.WGU;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,6 +29,7 @@ import com.bawp.WGU.model.AssessmentViewModel;
 
 import com.bawp.WGU.model.Term;
 import com.bawp.WGU.model.TermViewModel;
+import com.bawp.WGU.util.ReminderBroadcast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -118,6 +123,25 @@ public class Course extends AppCompatActivity {
 
     }
 
+    private void createNotificationChannel() {
+
+        CharSequence startDateName = "startNotifyDate";
+        String startDateDescription = "Channel for start date reminder";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel startDateChannel = new NotificationChannel("startNotifyDate", startDateName, importance);
+        startDateChannel.setDescription(startDateDescription);
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(startDateChannel);
+
+        CharSequence endDateName = "endNotifyDate";
+        String endDateDescription = "Channel for end date reminder";
+        NotificationChannel endDateChannel = new NotificationChannel("endNotifyDate", endDateName, importance);
+        startDateChannel.setDescription(endDateDescription);
+
+        notificationManager.createNotificationChannel(endDateChannel);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,7 +174,7 @@ public class Course extends AppCompatActivity {
 
         datePickers();
 
-
+        createNotificationChannel();
 //        enterCourseEnd.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
 //            @Override
 //            public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
@@ -167,7 +191,6 @@ public class Course extends AppCompatActivity {
 //            assessmentsInCourseList = new AssessmentsInCourseList(assessments);
 //            assessmentsView.setAdapter(assessmentsInCourseList);
 //        });
-
         editCourseFab.setOnClickListener(view -> {
             enterCourseTitle.setEnabled(true);
             enterCourseStart.setEnabled(true);
@@ -234,6 +257,12 @@ public class Course extends AppCompatActivity {
             Intent courseIntent = new Intent();
             termId = termIDIntent.getIntExtra("TERM_ID", termId);
 
+            Intent intent = new Intent(Course.this, ReminderBroadcast.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(Course.this, 0, intent, 0);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            long timeAtButtonClick = System.currentTimeMillis();
+            long tenSecondsInMillis = 1000 * 10;
+
             if (!TextUtils.isEmpty(enterCourseTitle.getText())
                     && !TextUtils.isEmpty(enterCourseStart.getText())
                     && !TextUtils.isEmpty(enterCourseEnd.getText())
@@ -243,6 +272,21 @@ public class Course extends AppCompatActivity {
                 String courseEnd = enterCourseEnd.getText().toString();
                 String courseStatus = enterCourseStatus.getText().toString();
                 String courseNote = enterCourseNote.getText().toString();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                long longStartDate = 0;
+                long longEndDate = 0;
+                try {
+                    Date startDate = sdf.parse(courseStart);
+                    Date endDate = sdf.parse(courseEnd);
+                    longStartDate = startDate.getTime();
+                    longEndDate = endDate.getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                alarmManager.set(AlarmManager.RTC_WAKEUP, longStartDate, pendingIntent);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, longEndDate, pendingIntent);
 
                 courseIntent.putExtra(COURSE_TITLE_REPLY, courseTitle);
                 courseIntent.putExtra(COURSE_START, courseStart);
