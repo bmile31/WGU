@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -53,7 +55,12 @@ public class Course extends AppCompatActivity {
     private EditText enterCourseEnd;
     private DatePickerDialog enterCourseStartDatepicker;
     private DatePickerDialog enterCourseEndDatepicker;
-    private EditText enterCourseStatus;
+    private RadioGroup enterCourseStatus;
+    private RadioButton selectedStatus;
+    private RadioButton statusInProgress;
+    private RadioButton statusCompleted;
+    private RadioButton statusDropped;
+    private RadioButton statusPlanToTake;
     private EditText enterCourseNote;
     private Button saveInfoButton;
     private RecyclerView assessmentsView;
@@ -152,13 +159,21 @@ public class Course extends AppCompatActivity {
         enterCourseTitle = findViewById(R.id.enter_course_title);
         enterCourseEnd = findViewById(R.id.enter_course_end);
         enterCourseStart = findViewById(R.id.enter_course_start);
-        enterCourseStatus = findViewById(R.id.enter_course_status);
+        enterCourseStatus = findViewById(R.id.radio_status);
+        statusInProgress = findViewById(R.id.radioInProgress);
+        statusCompleted = findViewById(R.id.radioCompleted);
+        statusDropped = findViewById(R.id.radioDropped);
+        statusPlanToTake = findViewById(R.id.radioPlanToTake);
         enterCourseNote = findViewById(R.id.enter_course_note);
         saveInfoButton = findViewById(R.id.save_course_button);
         assessmentsView = findViewById(R.id.rvAssessments);
         addAssessmentFab = findViewById(R.id.add_assessment_fab);
         editCourseFab = findViewById(R.id.edit_course_fab);
         shareFab = findViewById(R.id.share_fab);
+
+
+                Log.d(TAG, "Course Status: " + selectedStatus);
+
 
         assessmentsView.setLayoutManager(new LinearLayoutManager(this));
         assessmentsView.setHasFixedSize(true);
@@ -173,29 +188,16 @@ public class Course extends AppCompatActivity {
         });
 
         datePickers();
-
         createNotificationChannel();
-//        enterCourseEnd.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
-//            @Override
-//            public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
-//                Calendar today = Calendar.getInstance();
-////                if (year == today.get(Calendar.YEAR)
-////                        && month == today.get(Calendar.MONTH)
-////                        && dayOfMonth == today.get(Calendar.DAY_OF_MONTH))
-////                    alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
-//
-//            }
-//        });
 
-//        assessmentViewModel.getAllAssessments().observe(this, assessments -> {
-//            assessmentsInCourseList = new AssessmentsInCourseList(assessments);
-//            assessmentsView.setAdapter(assessmentsInCourseList);
-//        });
         editCourseFab.setOnClickListener(view -> {
             enterCourseTitle.setEnabled(true);
             enterCourseStart.setEnabled(true);
             enterCourseEnd.setEnabled(true);
-            enterCourseStatus.setEnabled(true);
+            statusCompleted.setEnabled(true);
+            statusDropped.setEnabled(true);
+            statusInProgress.setEnabled(true);
+            statusPlanToTake.setEnabled(true);
             enterCourseNote.setEnabled(true);
             updateButton.setVisibility(View.VISIBLE);
             deleteButton.setVisibility(View.VISIBLE);
@@ -227,6 +229,17 @@ public class Course extends AppCompatActivity {
             }
         });
 
+        enterCourseStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                selectedStatus = (RadioButton) findViewById(checkedId);
+                String selectedText = selectedStatus.getText().toString();
+                Log.d(TAG, "Course Status: " + selectedText);
+            }
+        });
+
         courseViewModel = new ViewModelProvider.AndroidViewModelFactory(Course.this
                 .getApplication())
                 .create(CourseViewModel.class);
@@ -242,7 +255,24 @@ public class Course extends AppCompatActivity {
                     enterCourseTitle.setText(course.getCourse_title());
                     enterCourseStart.setText(course.getCourse_start());
                     enterCourseEnd.setText(course.getCourse_end());
-                    enterCourseStatus.setText(course.getCourse_status());
+//                    enterCourseStatus.setText(course.getCourse_status());
+//                    selectedStatus = (RadioButton) findViewById(enterCourseStatus.getCheckedRadioButtonId());
+//                    String selectedText = selectedStatus.getText().toString();
+
+                    Log.d(TAG, "Course Status in edit: " + course.getCourse_status());
+
+                    if (course.getCourse_status().equals("In progress")) {
+                        enterCourseStatus.check(R.id.radioInProgress);
+                    }
+                    else if (course.getCourse_status().equals("Completed")) {
+                        enterCourseStatus.check(R.id.radioCompleted);
+                    }
+                    else if (course.getCourse_status().equals("Dropped")) {
+                        enterCourseStatus.check(R.id.radioDropped);
+                    }
+                    else if (course.getCourse_status().equals("Plan to take")) {
+                        enterCourseStatus.check(R.id.radioPlanToTake);
+                    }
                     enterCourseNote.setText(course.getCourse_note());
                     course.setTerm_id(course.getTerm_id());
 
@@ -260,18 +290,22 @@ public class Course extends AppCompatActivity {
             Intent intent = new Intent(Course.this, ReminderBroadcast.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(Course.this, 0, intent, 0);
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            long timeAtButtonClick = System.currentTimeMillis();
-            long tenSecondsInMillis = 1000 * 10;
+
+            selectedStatus = (RadioButton) findViewById(enterCourseStatus.getCheckedRadioButtonId());
+            String selectedText = selectedStatus.getText().toString();
+            Log.d(TAG, "Course Status: " + selectedText);
 
             if (!TextUtils.isEmpty(enterCourseTitle.getText())
                     && !TextUtils.isEmpty(enterCourseStart.getText())
-                    && !TextUtils.isEmpty(enterCourseEnd.getText())
-                    && !TextUtils.isEmpty(enterCourseStatus.getText())) {
+                    && !TextUtils.isEmpty(enterCourseEnd.getText())) {
                 String courseTitle = enterCourseTitle.getText().toString();
                 String courseStart = enterCourseStart.getText().toString();
                 String courseEnd = enterCourseEnd.getText().toString();
-                String courseStatus = enterCourseStatus.getText().toString();
+//                String courseStatus = selectedStatus.getText().toString();
+                String courseStatus = selectedText;
                 String courseNote = enterCourseNote.getText().toString();
+
+                Log.d(TAG, "Course Status: " + courseStatus);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 long longStartDate = 0;
@@ -311,7 +345,10 @@ public class Course extends AppCompatActivity {
             enterCourseTitle.setEnabled(false);
             enterCourseStart.setEnabled(false);
             enterCourseEnd.setEnabled(false);
-            enterCourseStatus.setEnabled(false);
+            statusCompleted.setEnabled(false);
+            statusDropped.setEnabled(false);
+            statusInProgress.setEnabled(false);
+            statusPlanToTake.setEnabled(false);
             enterCourseNote.setEnabled(false);
             saveInfoButton.setVisibility(View.GONE);
             updateButton.setVisibility(View.GONE);
@@ -329,10 +366,27 @@ public class Course extends AppCompatActivity {
         String courseTitle = enterCourseTitle.getText().toString().trim();
         String courseStart = enterCourseStart.getText().toString().trim();
         String courseEnd = enterCourseEnd.getText().toString().trim();
-        String courseNote = enterCourseNote.getText().toString().trim();
-        String courseStatus = enterCourseStatus.getText().toString().trim();
 
-        if (TextUtils.isEmpty(courseTitle) || TextUtils.isEmpty(courseStart) || TextUtils.isEmpty(courseEnd) || TextUtils.isEmpty(courseStatus)) {
+        String courseNote = enterCourseNote.getText().toString().trim();
+//        String courseStatus = selectedStatus.getText().toString().trim();
+
+        selectedStatus = (RadioButton) findViewById(enterCourseStatus.getCheckedRadioButtonId());
+        String selectedText = selectedStatus.getText().toString();
+
+        if (selectedText == "In progress") {
+            enterCourseStatus.check(R.id.radioInProgress);
+        }
+        else if (selectedText == "Completed") {
+            enterCourseStatus.check(R.id.radioCompleted);
+        }
+        else if (selectedText == "Dropped") {
+            enterCourseStatus.check(R.id.radioDropped);
+        }
+        else if (selectedText == "Plan to take") {
+            enterCourseStatus.check(R.id.radioPlanToTake);
+        }
+
+        if (TextUtils.isEmpty(courseTitle) || TextUtils.isEmpty(courseStart) || TextUtils.isEmpty(courseEnd)) {
             Snackbar.make(enterCourseTitle, R.string.empty, Snackbar.LENGTH_SHORT)
                     .show();
         } else {
@@ -342,7 +396,7 @@ public class Course extends AppCompatActivity {
             course.setCourse_title(courseTitle);
             course.setCourse_start(courseStart);
             course.setCourse_end(courseEnd);
-            course.setCourse_status(courseStatus);
+            course.setCourse_status(selectedText);
             course.setCourse_note(courseNote);
             course.setTerm_id(termId);
 

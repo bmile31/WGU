@@ -33,6 +33,10 @@
     <string name="course_note_hint">Enter course notes</string>
     <string name="course_start_title">Course start date</string>
     <string name="course_end_title">Course end date</string>
+    <string name="radio_in_progress">In progress</string>
+    <string name="radio_completed">Completed</string>
+    <string name="radio_dropped">Dropped</string>
+    <string name="radio_plan_to_take">Plan to take</string>
 
     <string name="row_assessment_title">TextView</string>
     <string name="row_assessment_end">TextView</string>

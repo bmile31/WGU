@@ -18,16 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-<!--    <TextView-->
-<!--        android:id="@+id/course_start_title"-->
-<!--        android:text="@string/course_start_title"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/enter_course_title"-->
-<!--        android:textAlignment="textStart"-->
-<!--        />-->
+
     <EditText
         android:id="@+id/enter_course_start"
         style="@style/formStyle"
@@ -43,25 +34,6 @@
         android:focusable="false"
         />
 
-<!--    <DatePicker-->
-<!--        android:id="@+id/enter_course_start_datepicker"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:calendarViewShown="false"-->
-<!--        android:datePickerMode="spinner"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/course_start_title" />-->
-<!--    <TextView-->
-<!--        android:id="@+id/course_end_title"-->
-<!--        android:text="@string/course_end_title"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/enter_course_start"-->
-<!--        android:textAlignment="textStart"-->
-<!--        />-->
     <EditText
         android:id="@+id/enter_course_end"
         style="@style/formStyle"
@@ -76,29 +48,52 @@
         app:layout_constraintTop_toBottomOf="@+id/enter_course_start"
         android:focusable="false" />
 
-<!--        <DatePicker-->
-<!--            android:id="@+id/enter_course_end_datepicker"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:calendarViewShown="false"-->
-<!--            android:datePickerMode="spinner"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/enter_course_end" />-->
-
-    <EditText
-        android:id="@+id/enter_course_status"
-        style="@style/formStyle"
-        android:layout_width="0dp"
+    <RadioGroup
+        android:id="@+id/radio_status"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/term_status_hint"
-        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_course_end" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_course_end" >
+
+        <RadioButton
+            android:id="@+id/radioInProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_in_progress" />
+
+        <RadioButton
+            android:id="@+id/radioCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_completed" />
+
+        <RadioButton
+            android:id="@+id/radioDropped"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_dropped" />
+
+        <RadioButton
+            android:id="@+id/radioPlanToTake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_plan_to_take" />
+
+    </RadioGroup>
+
+<!--    <EditText-->
+<!--        android:id="@+id/enter_course_status"-->
+<!--        style="@style/formStyle"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:autofillHints=""-->
+<!--        android:ems="10"-->
+<!--        android:hint="@string/term_status_hint"-->
+<!--        android:inputType="textPersonName"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/enter_course_end" />-->
 
     <EditText
         android:id="@+id/enter_course_note"
@@ -114,7 +109,7 @@
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_course_status" />
+        app:layout_constraintTop_toBottomOf="@+id/radio_status" />
 
     <Button
         android:id="@+id/save_course_button"

@@ -48,13 +48,13 @@ public abstract class Database extends RoomDatabase {
                         term = new Term("Summer 2021", "2021-07-07", "2021-07-07");
                         termDao.insert(term);
 
-                        Course course = new Course("World History", "2021-07-07", "2021-07-07", "In Progress", 1, "Something, something...");
+                        Course course = new Course("World History", "2021-07-07", "2021-07-07", "In progress", 1, "Something, something...");
                         courseDao.insert(course);
 
-                        course = new Course("Biology", "2021-07-07", "2021-07-07", "In Progress", 2, "Test note");
+                        course = new Course("Biology", "2021-07-07", "2021-07-07", "Completed", 2, "Test note");
                         courseDao.insert(course);
 
-                        course = new Course("English 101", "2021-07-07", "2021-07-07", "In Progress", 3, "Course notes would go here.");
+                        course = new Course("English 101", "2021-07-07", "2021-07-07", "Dropped", 3, "Course notes would go here.");
                         courseDao.insert(course);
 
                         Assessment assessment = new Assessment("Test 1", "2021-07-07", "OA", 1);
