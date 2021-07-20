@@ -24,9 +24,16 @@ public class ReminderBroadcast extends BroadcastReceiver {
                 .setContentText("Course is ending soon.")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
+        NotificationCompat.Builder endDateAssessmentBuilder = new NotificationCompat.Builder(context, "endNotifyDateAssessment")
+                .setSmallIcon(R.drawable.ic_baseline_add_24)
+                .setContentTitle("Reminder!")
+                .setContentText("Assessment is ending soon.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
         notificationManager.notify(200, startDateBuilder.build());
         notificationManager.notify(201, endDateBuilder.build());
+        notificationManager.notify(202, endDateAssessmentBuilder.build());
     }
 }

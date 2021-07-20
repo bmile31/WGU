@@ -1,6 +1,10 @@
 package com.bawp.WGU;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,10 +21,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bawp.WGU.model.AssessmentViewModel;
+import com.bawp.WGU.util.ReminderBroadcast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Assessment extends AppCompatActivity {
     public static final String ASSESSMENT_TITLE_REPLY = "assessment_title_reply";
@@ -71,6 +79,20 @@ public class Assessment extends AppCompatActivity {
 
     }
 
+    private void createNotificationChannel() {
+
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+
+        CharSequence endDateName = "endNotifyDateAssessment";
+        String endDateDescription = "Channel for end date reminder";
+        NotificationChannel endDateChannel = new NotificationChannel("endNotifyDateAssessment", endDateName, importance);
+        endDateChannel.setDescription(endDateDescription);
+
+        notificationManager.createNotificationChannel(endDateChannel);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +108,7 @@ public class Assessment extends AppCompatActivity {
         saveInfoButton = findViewById(R.id.save_assessment_button);
 
         datePickers();
+        createNotificationChannel();
 
         FloatingActionButton fab = findViewById(R.id.edit_assessment_fab);
         fab.setOnClickListener(view -> {
@@ -134,6 +157,10 @@ public class Assessment extends AppCompatActivity {
         saveInfoButton.setOnClickListener(view -> {
             Intent replyIntent = new Intent();
 
+            Intent intent = new Intent(Assessment.this, ReminderBroadcast.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(Assessment.this, 0, intent, 0);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
             selectedType = (RadioButton) findViewById(enterAssessmentType.getCheckedRadioButtonId());
             String selectedText = selectedType.getText().toString();
 
@@ -143,11 +170,21 @@ public class Assessment extends AppCompatActivity {
                 String assessmentEnd = enterAssessmentEnd.getText().toString();
                 String assessmentType = selectedText;
 
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                long longEndDate = 0;
+                try {
+                    Date endDate = sdf.parse(assessmentEnd);
+                    longEndDate = endDate.getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                alarmManager.set(AlarmManager.RTC_WAKEUP, longEndDate, pendingIntent);
+
                 replyIntent.putExtra(ASSESSMENT_TITLE_REPLY, assessmentTitle);
                 replyIntent.putExtra(ASSESSMENT_END, assessmentEnd);
                 replyIntent.putExtra(ASSESSMENT_TYPE, assessmentType);
                 setResult(RESULT_OK, replyIntent);
-
 
             } else {
                 setResult(RESULT_CANCELED, replyIntent);

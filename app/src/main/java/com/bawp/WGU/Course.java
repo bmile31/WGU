@@ -144,7 +144,7 @@ public class Course extends AppCompatActivity {
         CharSequence endDateName = "endNotifyDate";
         String endDateDescription = "Channel for end date reminder";
         NotificationChannel endDateChannel = new NotificationChannel("endNotifyDate", endDateName, importance);
-        startDateChannel.setDescription(endDateDescription);
+        endDateChannel.setDescription(endDateDescription);
 
         notificationManager.createNotificationChannel(endDateChannel);
     }
