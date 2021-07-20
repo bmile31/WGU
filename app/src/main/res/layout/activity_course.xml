@@ -82,19 +82,6 @@
 
     </RadioGroup>
 
-<!--    <EditText-->
-<!--        android:id="@+id/enter_course_status"-->
-<!--        style="@style/formStyle"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:autofillHints=""-->
-<!--        android:ems="10"-->
-<!--        android:hint="@string/term_status_hint"-->
-<!--        android:inputType="textPersonName"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/enter_course_end" />-->
-
     <EditText
         android:id="@+id/enter_course_note"
         style="@style/formStyle"

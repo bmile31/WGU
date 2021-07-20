@@ -57,13 +57,13 @@ public abstract class Database extends RoomDatabase {
                         course = new Course("English 101", "2021-07-07", "2021-07-07", "Dropped", 3, "Course notes would go here.");
                         courseDao.insert(course);
 
-                        Assessment assessment = new Assessment("Test 1", "2021-07-07", "OA", 1);
+                        Assessment assessment = new Assessment("Test 1", "2021-07-07", "Performance assessment", 1);
                         assessmentDao.insert(assessment);
 
-                        assessment = new Assessment("Test 2", "2021-07-07", "OA", 2);
+                        assessment = new Assessment("Test 2", "2021-07-07", "Objective assessment", 2);
                         assessmentDao.insert(assessment);
 
-                        assessment = new Assessment("Test 3", "2021-07-07", "OA", 3);
+                        assessment = new Assessment("Test 3", "2021-07-07", "Objective assessment", 3);
                         assessmentDao.insert(assessment);
                     });
                 }

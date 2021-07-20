@@ -229,16 +229,16 @@ public class Course extends AppCompatActivity {
             }
         });
 
-        enterCourseStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId)
-            {
-                selectedStatus = (RadioButton) findViewById(checkedId);
-                String selectedText = selectedStatus.getText().toString();
-                Log.d(TAG, "Course Status: " + selectedText);
-            }
-        });
+//        enterCourseStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId)
+//            {
+//                selectedStatus = (RadioButton) findViewById(checkedId);
+//                String selectedText = selectedStatus.getText().toString();
+//                Log.d(TAG, "Course Status: " + selectedText);
+//            }
+//        });
 
         courseViewModel = new ViewModelProvider.AndroidViewModelFactory(Course.this
                 .getApplication())
@@ -259,7 +259,7 @@ public class Course extends AppCompatActivity {
 //                    selectedStatus = (RadioButton) findViewById(enterCourseStatus.getCheckedRadioButtonId());
 //                    String selectedText = selectedStatus.getText().toString();
 
-                    Log.d(TAG, "Course Status in edit: " + course.getCourse_status());
+//                    Log.d(TAG, "Course Status in edit: " + course.getCourse_status());
 
                     if (course.getCourse_status().equals("In progress")) {
                         enterCourseStatus.check(R.id.radioInProgress);
@@ -373,16 +373,16 @@ public class Course extends AppCompatActivity {
         selectedStatus = (RadioButton) findViewById(enterCourseStatus.getCheckedRadioButtonId());
         String selectedText = selectedStatus.getText().toString();
 
-        if (selectedText == "In progress") {
+        if (selectedText.equals("In progress")) {
             enterCourseStatus.check(R.id.radioInProgress);
         }
-        else if (selectedText == "Completed") {
+        else if (selectedText.equals("Completed")) {
             enterCourseStatus.check(R.id.radioCompleted);
         }
-        else if (selectedText == "Dropped") {
+        else if (selectedText.equals("Dropped")) {
             enterCourseStatus.check(R.id.radioDropped);
         }
-        else if (selectedText == "Plan to take") {
+        else if (selectedText.equals("Plan to take")) {
             enterCourseStatus.check(R.id.radioPlanToTake);
         }
 
