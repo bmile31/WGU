@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.bawp.WGU.data.AssessmentDao;
 import com.bawp.WGU.data.CourseDao;
+import com.bawp.WGU.data.InstructorDao;
 import com.bawp.WGU.data.TermDao;
 import com.bawp.WGU.model.Assessment;
 import com.bawp.WGU.model.Course;
+import com.bawp.WGU.model.Instructor;
 import com.bawp.WGU.model.Term;
 
 import java.util.concurrent.ExecutorService;
@@ -17,7 +19,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@androidx.room.Database(entities = {Term.class, Course.class, Assessment.class}, version = 5, exportSchema = false)
+@androidx.room.Database(entities = {Term.class, Course.class, Assessment.class, Instructor.class}, version = 5, exportSchema = false)
 
 public abstract class Database extends RoomDatabase {
 
@@ -35,9 +37,12 @@ public abstract class Database extends RoomDatabase {
                         TermDao termDao = INSTANCE.termDao();
                         CourseDao courseDao = INSTANCE.courseDao();
                         AssessmentDao assessmentDao = INSTANCE.assessmentDao();
+                        InstructorDao instructorDao = INSTANCE.instructorDao();
                         termDao.deleteAll();
                         courseDao.deleteAll();
                         assessmentDao.deleteAll();
+                        instructorDao.deleteAll();
+
 
                         Term term = new Term("Fall 2020", "2021-07-07", "2021-07-07");
                         termDao.insert(term);
@@ -65,6 +70,18 @@ public abstract class Database extends RoomDatabase {
 
                         assessment = new Assessment("Test 3", "2021-07-07", "Objective assessment", 3);
                         assessmentDao.insert(assessment);
+
+                        Instructor instructor = new Instructor("John Smith", "john@mail.com", "555-555-5555", 1);
+                        instructorDao.insert(instructor);
+
+                        instructor = new Instructor("Bobby Brown", "bobby@mail.com", "555-555-5555", 1);
+                        instructorDao.insert(instructor);
+
+                        instructor = new Instructor("Jan Doe", "jane@mail.com", "555-555-5555", 2);
+                        instructorDao.insert(instructor);
+
+                        instructor = new Instructor("Brenda Hendrix", "brenda@mail.com", "555-555-5555", 3);
+                        instructorDao.insert(instructor);
                     });
                 }
             };
@@ -88,5 +105,6 @@ public abstract class Database extends RoomDatabase {
     public abstract TermDao termDao();
     public abstract CourseDao courseDao();
     public abstract AssessmentDao assessmentDao();
+    public abstract InstructorDao instructorDao();
 
 }

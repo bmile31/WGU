@@ -39,6 +39,8 @@
     <string name="radio_plan_to_take">Plan to take</string>
     <string name="radio_performance">Performance assessment</string>
     <string name="radio_objective">Objective assessment</string>
+    <string name="text_instructor">Instructors</string>
+    <string name="text_assessment">Assessments</string>
 
     <string name="row_assessment_title">TextView</string>
     <string name="row_assessment_end">TextView</string>

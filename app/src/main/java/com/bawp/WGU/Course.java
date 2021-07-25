@@ -26,9 +26,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawp.WGU.adapter.AssessmentsInCourseList;
+import com.bawp.WGU.adapter.CourseList;
+import com.bawp.WGU.adapter.CoursesInTermList;
+import com.bawp.WGU.adapter.InstructorList;
 import com.bawp.WGU.model.CourseViewModel;
 import com.bawp.WGU.model.AssessmentViewModel;
 
+import com.bawp.WGU.model.Instructor;
+import com.bawp.WGU.model.InstructorViewModel;
 import com.bawp.WGU.model.Term;
 import com.bawp.WGU.model.TermViewModel;
 import com.bawp.WGU.util.ReminderBroadcast;
@@ -43,13 +48,15 @@ import java.util.Locale;
 
 public class Course extends AppCompatActivity {
     private static final int NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
+    private static final int NEW_INSTRUCTOR_ACTIVITY_REQUEST_CODE = 1;
+    private static final String TAG = "Clicked";
     public static final String COURSE_TITLE_REPLY = "course_title_reply";
     public static final String COURSE_START = "course_start";
     public static final String COURSE_END = "course_end";
     public static final String COURSE_STATUS = "course_status";
     public static final String COURSE_NOTE = "course_note";
     public static final String TERM_ID = "term_id";
-    private static final String TAG = "Clicked";
+    public static final String INSTRUCTOR_ID = "instructor_id";
     private EditText enterCourseTitle;
     private EditText enterCourseStart;
     private EditText enterCourseEnd;
@@ -64,6 +71,7 @@ public class Course extends AppCompatActivity {
     private EditText enterCourseNote;
     private Button saveInfoButton;
     private RecyclerView assessmentsView;
+    private RecyclerView instructorsView;
     private int courseId = 0;
     private int termId = 0;
     private Boolean isEdit = false;
@@ -75,8 +83,10 @@ public class Course extends AppCompatActivity {
 
     private CourseViewModel courseViewModel;
     private AssessmentViewModel assessmentViewModel;
+    private InstructorViewModel instructorViewModel;
 
     private AssessmentsInCourseList assessmentsInCourseList;
+    private InstructorList instructorList;
 
     private void datePickers(){
         enterCourseStart.setOnClickListener(new View.OnClickListener() {
@@ -170,13 +180,15 @@ public class Course extends AppCompatActivity {
         addAssessmentFab = findViewById(R.id.add_assessment_fab);
         editCourseFab = findViewById(R.id.edit_course_fab);
         shareFab = findViewById(R.id.share_fab);
-
-
-                Log.d(TAG, "Course Status: " + selectedStatus);
-
+        instructorsView = findViewById(R.id.rvInstructors);
 
         assessmentsView.setLayoutManager(new LinearLayoutManager(this));
         assessmentsView.setHasFixedSize(true);
+        assessmentsView.setNestedScrollingEnabled(false);
+
+        instructorsView.setLayoutManager(new LinearLayoutManager(this));
+        instructorsView.setHasFixedSize(true);
+        instructorsView.setNestedScrollingEnabled(false);
 
         assessmentViewModel = new ViewModelProvider.AndroidViewModelFactory(Course.this
                 .getApplication())
@@ -185,6 +197,17 @@ public class Course extends AppCompatActivity {
         assessmentViewModel.getAssessmentsByCourse(getIntent().getIntExtra(Courses.COURSE_ID, 0)).observe(this, assessments -> {
             assessmentsInCourseList = new AssessmentsInCourseList(assessments);
             assessmentsView.setAdapter(assessmentsInCourseList);
+        });
+
+        Log.d(TAG, "Course ID: " + getIntent().getIntExtra(Courses.COURSE_ID, 0));
+
+        instructorViewModel = new ViewModelProvider.AndroidViewModelFactory(Course.this
+                .getApplication())
+                .create(InstructorViewModel.class);
+
+        instructorViewModel.getInstructorsByCourse(getIntent().getIntExtra(Courses.COURSE_ID, 0)).observe(this, instructors -> {
+            instructorList = new InstructorList(instructors);
+            instructorsView.setAdapter(instructorList);
         });
 
         datePickers();
@@ -293,7 +316,6 @@ public class Course extends AppCompatActivity {
 
             selectedStatus = (RadioButton) findViewById(enterCourseStatus.getCheckedRadioButtonId());
             String selectedText = selectedStatus.getText().toString();
-            Log.d(TAG, "Course Status: " + selectedText);
 
             if (!TextUtils.isEmpty(enterCourseTitle.getText())
                     && !TextUtils.isEmpty(enterCourseStart.getText())
@@ -305,7 +327,7 @@ public class Course extends AppCompatActivity {
                 String courseStatus = selectedText;
                 String courseNote = enterCourseNote.getText().toString();
 
-                Log.d(TAG, "Course Status: " + courseStatus);
+//                Log.d(TAG, "Course Status: " + courseStatus);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 long longStartDate = 0;

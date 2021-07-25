@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawp.WGU.adapter.CourseList;
 import com.bawp.WGU.model.CourseViewModel;
+import com.bawp.WGU.model.InstructorViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
@@ -22,6 +23,7 @@ public class Courses extends AppCompatActivity implements CourseList.OnCourseCli
 //    private static final String TAG = "Clicked";
     public static final String COURSE_ID = "course_id";
     public static final String TERM_ID = "term_id";
+    public static final String INSTRUCTOR_ID = "instructor_id";
     private CourseViewModel courseViewModel;
     private RecyclerView recyclerView;
     private CourseList courseList;
