@@ -9,9 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.bawp.WGU.adapter.CourseList;
 import com.bawp.WGU.adapter.CoursesInTermList;
+import com.bawp.WGU.data.CourseDao;
 import com.bawp.WGU.model.CourseViewModel;
 import com.bawp.WGU.model.TermViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,6 +38,7 @@ public class Term extends AppCompatActivity {
     public static final String TERM_START = "term_start";
     public static final String TERM_END = "term_end";
     public static final String TERM_ID = "term_id";
+    private static final String TAG = "Clicked";
     private EditText enterTermTitle;
     private EditText enterTermStart;
     private EditText enterTermEnd;
@@ -200,7 +203,16 @@ public class Term extends AppCompatActivity {
         });
 
         deleteButton = findViewById(R.id.delete_term_button);
-        deleteButton.setOnClickListener(view -> edit(true));
+        deleteButton.setOnClickListener(view -> {
+
+            if (coursesInTermList.getItemCount() == 0) {
+                edit(true);
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"Please remove all courses associated with this term first.",Toast.LENGTH_LONG).show();
+            }
+        });
+
         //Update button
         updateButton = findViewById(R.id.update_term_button);
         updateButton.setOnClickListener(view -> edit(false));
@@ -234,8 +246,9 @@ public class Term extends AppCompatActivity {
             term.setTerm_title(termTitle);
             term.setTerm_start(termStart);
             term.setTerm_end(termEnd);
+
             if (isDelete)
-                TermViewModel.delete(term);
+                    TermViewModel.delete(term);
             else
                 TermViewModel.update(term);
             finish();

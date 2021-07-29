@@ -48,7 +48,6 @@ import java.util.Locale;
 
 public class Course extends AppCompatActivity {
     private static final int NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
-    private static final int NEW_INSTRUCTOR_ACTIVITY_REQUEST_CODE = 1;
     private static final String TAG = "Clicked";
     public static final String COURSE_TITLE_REPLY = "course_title_reply";
     public static final String COURSE_START = "course_start";
@@ -56,7 +55,6 @@ public class Course extends AppCompatActivity {
     public static final String COURSE_STATUS = "course_status";
     public static final String COURSE_NOTE = "course_note";
     public static final String TERM_ID = "term_id";
-    public static final String INSTRUCTOR_ID = "instructor_id";
     private EditText enterCourseTitle;
     private EditText enterCourseStart;
     private EditText enterCourseEnd;
@@ -380,6 +378,7 @@ public class Course extends AppCompatActivity {
             deleteButton.setVisibility(View.GONE);
             editCourseFab.setVisibility(View.GONE);
             shareFab.setVisibility(View.GONE);
+            addAssessmentFab.setVisibility(View.GONE);
         }
     }
 
