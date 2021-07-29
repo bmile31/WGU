@@ -152,6 +152,7 @@ public class Term extends AppCompatActivity {
             deleteButton.setVisibility(View.VISIBLE);
             courseView.setVisibility(View.GONE);
             editFab.setVisibility(View.GONE);
+            addCourseFab.setVisibility(View.GONE);
 //            cancelFab.setVisibility(View.VISIBLE);
 
             assert actionBar != null;
@@ -229,6 +230,7 @@ public class Term extends AppCompatActivity {
             deleteButton.setVisibility(View.GONE);
             editFab.setVisibility(View.GONE);
             courseView.setVisibility(View.GONE);
+            addCourseFab.setVisibility(View.GONE);
         }
     }
 
