@@ -16,6 +16,7 @@
     <string name="term_start_hint">Term start</string>
     <string name="term_end_hint">Term end</string>
     <string name="term_button_text">Terms</string>
+    <string name="instructor_button_text">Instructors</string>
     <string name="edit_button">Edit</string>
     <string name="cancel_edit_button">Edit</string>
     <string name="row_term_title">TextView</string>
@@ -27,6 +28,7 @@
     <string name="row_course_end">TextView</string>
     <string name="row_course_status">TextView</string>
     <string name="course_button_text">Courses</string>
+    <string name="add_instructor_button">Add Instructor</string>
     <string name="course_title_hint">Enter course title</string>
     <string name="course_start_hint">Enter course start date</string>
     <string name="course_end_hint">Enter course end date</string>

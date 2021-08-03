@@ -11,6 +11,7 @@ public class Home extends AppCompatActivity {
     private Button termsButton;
     private Button coursesButton;
     private Button assessmentButton;
+    private Button instructorButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,14 @@ public class Home extends AppCompatActivity {
                 openAssessments();
             }
         });
+
+        instructorButton = findViewById(R.id.instructors_button);
+        instructorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openInstructors();
+            }
+        });
     }
 
     public void openTerms(){
@@ -54,6 +63,11 @@ public class Home extends AppCompatActivity {
 
     public void openAssessments(){
         Intent intent = new Intent(this, Assessments.class);
+        startActivity(intent);
+    }
+
+    public void openInstructors(){
+        Intent intent = new Intent(this, Instructors.class);
         startActivity(intent);
     }
 }

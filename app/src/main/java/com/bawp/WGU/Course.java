@@ -6,7 +6,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -26,16 +24,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawp.WGU.adapter.AssessmentsInCourseList;
-import com.bawp.WGU.adapter.CourseList;
-import com.bawp.WGU.adapter.CoursesInTermList;
-import com.bawp.WGU.adapter.InstructorList;
+import com.bawp.WGU.adapter.InstructorInCourseList;
 import com.bawp.WGU.model.CourseViewModel;
 import com.bawp.WGU.model.AssessmentViewModel;
 
-import com.bawp.WGU.model.Instructor;
 import com.bawp.WGU.model.InstructorViewModel;
-import com.bawp.WGU.model.Term;
-import com.bawp.WGU.model.TermViewModel;
 import com.bawp.WGU.util.ReminderBroadcast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,7 +37,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class Course extends AppCompatActivity {
     private static final int NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE = 1;
@@ -84,7 +76,7 @@ public class Course extends AppCompatActivity {
     private InstructorViewModel instructorViewModel;
 
     private AssessmentsInCourseList assessmentsInCourseList;
-    private InstructorList instructorList;
+    private InstructorInCourseList instructorInCourseList;
 
     private void datePickers(){
         enterCourseStart.setOnClickListener(new View.OnClickListener() {
@@ -204,8 +196,8 @@ public class Course extends AppCompatActivity {
                 .create(InstructorViewModel.class);
 
         instructorViewModel.getInstructorsByCourse(getIntent().getIntExtra(Courses.COURSE_ID, 0)).observe(this, instructors -> {
-            instructorList = new InstructorList(instructors);
-            instructorsView.setAdapter(instructorList);
+            instructorInCourseList = new InstructorInCourseList(instructors);
+            instructorsView.setAdapter(instructorInCourseList);
         });
 
         datePickers();
@@ -425,6 +417,25 @@ public class Course extends AppCompatActivity {
                 CourseViewModel.delete(course);
             else
                 CourseViewModel.update(course);
+
+            Intent intent = new Intent(Course.this, ReminderBroadcast.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(Course.this, 0, intent, 0);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            long longStartDate = 0;
+            long longEndDate = 0;
+            try {
+                Date startDate = sdf.parse(courseStart);
+                Date endDate = sdf.parse(courseEnd);
+                longStartDate = startDate.getTime();
+                longEndDate = endDate.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            alarmManager.set(AlarmManager.RTC_WAKEUP, longStartDate, pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, longEndDate, pendingIntent);
             finish();
         }
     }
